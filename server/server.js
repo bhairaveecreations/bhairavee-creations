@@ -28,7 +28,9 @@ app.use(
     max: 100
   })
 );
-
+app.get("/", (req, res) => {
+  res.send("API running");
+});
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
