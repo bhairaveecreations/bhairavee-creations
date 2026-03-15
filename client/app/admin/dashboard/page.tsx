@@ -301,7 +301,6 @@ function Card({ title, value }: any) {
       </p>
 
     </div>
-g
   );
 
 }
