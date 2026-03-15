@@ -11,7 +11,7 @@ export default function HomePage() {
     <main>
       <Hero />
       <SignatureCollection/>
-      <BrandHighlights/>
+      {/* <BrandHighlights/> */}
       <CustomOrderCTA/>
       <Testimonials/>
       <InstagramSection/>
