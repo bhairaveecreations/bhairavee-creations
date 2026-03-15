@@ -107,7 +107,7 @@ export default function CreateProductPage() {
           placeholder="Stock"
           className="w-full border p-3"
           onChange={(e)=>
-            setForm({...form, stock:e.target.value})
+            setForm({...form, stock:parseInt(e.target.value)})
           }
         />
 
