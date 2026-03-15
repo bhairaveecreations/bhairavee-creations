@@ -8,6 +8,7 @@ import ProductCard from "@/components/product/ProductCard";
 export default function SignatureCollection() {
 
   const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -15,14 +16,24 @@ export default function SignatureCollection() {
 
       try {
 
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/products`
-        );
+        const API = process.env.NEXT_PUBLIC_API_URL;
+
+        if (!API) {
+          console.error("API URL not found");
+          setLoading(false);
+          return;
+        }
+
+        const res = await axios.get(`${API}/products`);
 
         setProducts(res.data.slice(0, 3));
 
       } catch (error) {
-        console.error(error);
+
+        console.error("Failed to load products", error);
+
+      } finally {
+        setLoading(false);
       }
 
     }
@@ -30,8 +41,6 @@ export default function SignatureCollection() {
     fetchProducts();
 
   }, []);
-
-  if (products.length === 0) return null;
 
   return (
 
@@ -74,70 +83,90 @@ export default function SignatureCollection() {
 
         </div>
 
+        {/* Loading */}
+
+        {loading && (
+          <div className="text-center py-12 text-gray-500">
+            Loading signature collection...
+          </div>
+        )}
+
+        {/* No products */}
+
+        {!loading && products.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            No products available
+          </div>
+        )}
+
         {/* Desktop Grid */}
 
-        <div className="hidden md:grid grid-cols-3 gap-10 items-end">
+        {!loading && products.length > 0 && (
+          <div className="hidden md:grid grid-cols-3 gap-10 items-end">
 
-          {products.map((product, index) => {
+            {products.map((product, index) => {
 
-            const isMiddle = index === 1;
+              const isMiddle = index === 1;
 
-            return (
-
-              <div
-                key={product._id}
-                className={`transition-all duration-500 transform
-                ${isMiddle ? "scale-105" : "scale-100"}
-                hover:-translate-y-4`}
-              >
-                <ProductCard product={product} />
-              </div>
-
-            );
-
-          })}
-
-        </div>
-
-        {/* Mobile Slider */}
-
-        <div className="md:hidden">
-
-          <div className="flex justify-between items-center mb-4">
-
-            <p className="text-sm text-gray-600">
-              Signature Pieces
-            </p>
-
-            <Link
-              href="/shop"
-              className="text-sm font-medium text-[#C8A24A]"
-            >
-              View More →
-            </Link>
-
-          </div>
-
-          <div className="overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-
-            <div className="flex gap-6 w-max pr-6">
-
-              {products.map((product) => (
+              return (
 
                 <div
                   key={product._id}
-                  className="min-w-[260px] snap-start"
+                  className={`transition-all duration-500 transform
+                  ${isMiddle ? "scale-105" : "scale-100"}
+                  hover:-translate-y-4`}
                 >
                   <ProductCard product={product} />
                 </div>
 
-              ))}
+              );
+
+            })}
+
+          </div>
+        )}
+
+        {/* Mobile Slider */}
+
+        {!loading && products.length > 0 && (
+          <div className="md:hidden">
+
+            <div className="flex justify-between items-center mb-4">
+
+              <p className="text-sm text-gray-600">
+                Signature Pieces
+              </p>
+
+              <Link
+                href="/shop"
+                className="text-sm font-medium text-[#C8A24A]"
+              >
+                View More →
+              </Link>
+
+            </div>
+
+            <div className="overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+
+              <div className="flex gap-6 w-max pr-6">
+
+                {products.map((product) => (
+
+                  <div
+                    key={product._id}
+                    className="min-w-[260px] snap-start"
+                  >
+                    <ProductCard product={product} />
+                  </div>
+
+                ))}
+
+              </div>
 
             </div>
 
           </div>
-
-        </div>
+        )}
 
       </div>
 
