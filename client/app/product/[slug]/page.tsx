@@ -3,8 +3,11 @@
 import ProductView from "@/components/product/ProductView";
 
 async function getProduct(slug: string) {
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
   const res = await fetch(
-    `http://localhost:5000/api/products/${slug}`,
+    `${API}/products/${slug}`,
     { cache: "no-store" }
   );
 
@@ -18,10 +21,11 @@ async function getProduct(slug: string) {
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
-  const product = await getProduct(slug);
+
+  const product = await getProduct(params.slug);
 
   return <ProductView product={product} />;
+
 }
