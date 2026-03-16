@@ -28,12 +28,14 @@ exports.register = async (req, res) => {
 
   const token = generateToken(user);
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 10 * 24 * 60 * 60 * 1000
-  });
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  path: "/",
+  domain: ".onrender.com",   // important for your Render backend
+  maxAge: 10 * 24 * 60 * 60 * 1000
+});
 
   res.status(201).json({ message: "Registered successfully" });
 };
@@ -51,17 +53,26 @@ exports.login = async (req, res) => {
   const token = generateToken(user);
 
   res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 10 * 24 * 60 * 60 * 1000
-  });
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  path: "/",
+  domain: ".onrender.com",   // important for your Render backend
+  maxAge: 10 * 24 * 60 * 60 * 1000
+});
 
   res.json({ message: "Login successful" });
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+    domain: ".onrender.com"
+  });
+
   res.json({ message: "Logged out successfully" });
 };
 

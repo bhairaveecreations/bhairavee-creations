@@ -98,7 +98,7 @@ export default function ProfilePage() {
     onClick={async () => {
   await api.post("/auth/logout");
   logout();
-  router.push("/login");
+  router.push("/profile");
 }}
     className="w-full md:w-auto border border-gray-300 px-6 py-3 rounded-full hover:bg-gray-100 transition"
   >
