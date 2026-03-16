@@ -12,6 +12,7 @@ export default function AdminOrdersPage() {
 
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
 
   /* --------------------------
      Fetch Orders
@@ -121,25 +122,40 @@ export default function AdminOrdersPage() {
   };
 
   /* --------------------------
-     Status Badge Colors
+     Status Badge
   -------------------------- */
 
-  const statusStyle = (status: string) => {
+  const badge = (status: string) => {
 
     switch (status) {
+
       case "processing":
         return "bg-yellow-100 text-yellow-700";
+
       case "ready-for-shipping":
         return "bg-blue-100 text-blue-700";
+
       case "delivered":
         return "bg-green-100 text-green-700";
+
       case "cancelled":
         return "bg-red-100 text-red-700";
+
       default:
         return "bg-gray-100 text-gray-700";
+
     }
 
   };
+
+  /* --------------------------
+     Filtered Orders
+  -------------------------- */
+
+  const filteredOrders =
+    filter === "all"
+      ? orders
+      : orders.filter((o) => o.orderStatus === filter);
 
   /* --------------------------
      Loading State
@@ -148,90 +164,126 @@ export default function AdminOrdersPage() {
   if (loading) {
 
     return (
-      <div className="flex justify-center items-center min-h-screen text-gray-600 text-lg">
+
+      <div className="flex justify-center items-center min-h-screen text-gray-500 text-lg">
         Loading orders...
       </div>
+
     );
 
   }
 
   return (
 
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto px-4 md:px-6 py-6">
 
       {/* Header */}
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
-        <h1 className="text-3xl font-bold text-gray-800">
-          Admin Orders
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+          Orders
         </h1>
 
-        <span className="text-gray-500 text-sm">
+        <div className="text-sm text-gray-500">
           Total Orders: {orders.length}
-        </span>
+        </div>
 
       </div>
 
-      {orders.length === 0 ? (
 
-        <div className="text-center py-20 border rounded-lg bg-gray-50">
-          <p className="text-gray-500 text-lg">
-            No orders found
-          </p>
+      {/* Filter Bar */}
+
+      <div className="flex gap-2 overflow-x-auto pb-3 mb-6">
+
+        {[
+          "all",
+          "processing",
+          "ready-for-shipping",
+          "delivered",
+          "cancelled",
+        ].map((status) => (
+
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition
+              ${
+                filter === status
+                  ? "bg-black text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
+              }`}
+          >
+            {status.replaceAll("-", " ")}
+          </button>
+
+        ))}
+
+      </div>
+
+
+      {/* Orders */}
+
+      {filteredOrders.length === 0 ? (
+
+        <div className="text-center py-20 border rounded-xl bg-gray-50">
+          No orders found
         </div>
 
       ) : (
 
-        <div className="grid gap-6">
+        <div className="grid gap-5">
 
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
 
             <div
               key={order._id}
-              className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition"
+              className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition"
             >
 
               {/* Top Row */}
 
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-start mb-4">
 
                 <div>
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-gray-400">
                     Order ID
                   </p>
 
-                  <p className="font-mono text-sm text-gray-800">
+                  <p className="font-mono text-sm text-gray-700 break-all">
                     {order._id}
                   </p>
 
                 </div>
 
                 <span
-                  className={`px-3 py-1 text-xs rounded-full font-semibold ${statusStyle(order.orderStatus)}`}
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${badge(
+                    order.orderStatus
+                  )}`}
                 >
-                  {order.orderStatus}
+                  {order.orderStatus.replaceAll("-", " ")}
                 </span>
 
               </div>
 
-              {/* Order Info */}
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              {/* Info Grid */}
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5 text-sm">
 
                 <div>
-                  <p className="text-gray-500 text-sm">
-                    Total Amount
+                  <p className="text-gray-400">
+                    Total
                   </p>
-                  <p className="font-semibold text-lg">
+                  <p className="font-semibold text-base">
                     ₹{order.totalAmount}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-gray-500 text-sm">
-                    Payment Status
+                  <p className="text-gray-400">
+                    Payment
                   </p>
                   <p className="font-semibold">
                     {order.paymentStatus}
@@ -239,8 +291,8 @@ export default function AdminOrdersPage() {
                 </div>
 
                 <div>
-                  <p className="text-gray-500 text-sm">
-                    Advance Paid
+                  <p className="text-gray-400">
+                    Advance
                   </p>
                   <p className="font-semibold">
                     ₹{order.advanceAmount}
@@ -248,7 +300,7 @@ export default function AdminOrdersPage() {
                 </div>
 
                 <div>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-400">
                     Remaining
                   </p>
                   <p className="font-semibold">
@@ -258,16 +310,17 @@ export default function AdminOrdersPage() {
 
               </div>
 
-              {/* Controls */}
 
-              <div className="flex flex-col md:flex-row md:items-center gap-4">
+              {/* Actions */}
+
+              <div className="flex flex-col md:flex-row gap-3">
 
                 <select
                   value={order.orderStatus}
                   onChange={(e) =>
                     updateStatus(order._id, e.target.value)
                   }
-                  className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                  className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 >
 
                   <option value="processing">
@@ -288,6 +341,7 @@ export default function AdminOrdersPage() {
 
                 </select>
 
+
                 {order.orderStatus === "ready-for-shipping" &&
                  order.paymentStatus === "advance-paid" && (
 
@@ -295,7 +349,7 @@ export default function AdminOrdersPage() {
                     onClick={() =>
                       requestRemainingPayment(order._id)
                     }
-                    className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md font-medium transition"
+                    className="bg-orange-500 hover:bg-orange-600 text-white text-sm px-4 py-2 rounded-lg transition"
                   >
                     Request Remaining Payment
                   </button>
