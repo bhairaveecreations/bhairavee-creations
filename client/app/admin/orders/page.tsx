@@ -69,7 +69,7 @@ export default function AdminOrdersPage() {
 
     load();
 
-  }, []);
+  }, [orders]);
 
   /* --------------------------
      Update Order Status
