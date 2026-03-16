@@ -12,6 +12,8 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [deliveryFee, setDeliveryFee] = useState(150);
+
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -21,13 +23,40 @@ export default function CheckoutPage() {
     pincode: "",
   });
 
+  /* --------------------------
+     Calculate Subtotal
+  --------------------------- */
+
   const subtotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  const DELIVERY_FEE = subtotal > 5000 ? 0 : 499;
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal + deliveryFee;
+
+  /* --------------------------
+     Handle Pincode Change
+  --------------------------- */
+
+  const handlePincodeChange = (value: string) => {
+
+    setForm({ ...form, pincode: value });
+
+    if (value.length === 6) {
+
+      if (value.startsWith("411") || value.startsWith("412")) {
+        setDeliveryFee(80); // Pune
+      } else {
+        setDeliveryFee(150); // Rest of India
+      }
+
+    }
+
+  };
+
+  /* --------------------------
+     Submit Checkout
+  --------------------------- */
 
   const handleSubmit = async (e: React.FormEvent) => {
 
@@ -42,9 +71,7 @@ export default function CheckoutPage() {
 
       setLoading(true);
 
-      /* --------------------------
-         STEP 1: CREATE RAZORPAY ORDER
-      --------------------------- */
+      /* STEP 1: CREATE RAZORPAY ORDER */
 
       const paymentRes = await api.post("/payment/create-advance", {
         items,
@@ -54,9 +81,7 @@ export default function CheckoutPage() {
 
       const paymentData = paymentRes.data;
 
-      /* --------------------------
-         STEP 2: OPEN RAZORPAY
-      --------------------------- */
+      /* STEP 2: OPEN RAZORPAY */
 
       const options = {
 
@@ -83,10 +108,7 @@ export default function CheckoutPage() {
 
         handler: async function (response: any) {
 
-          /* --------------------------
-             STEP 3: VERIFY PAYMENT
-             (THIS WILL CREATE ORDER)
-          --------------------------- */
+          /* STEP 3: VERIFY PAYMENT */
 
           await api.post("/payment/verify-advance", {
 
@@ -184,11 +206,14 @@ export default function CheckoutPage() {
         <input
           placeholder="Pincode"
           required
+          maxLength={6}
           className="w-full border p-3"
           onChange={(e) =>
-            setForm({ ...form, pincode: e.target.value })
+            handlePincodeChange(e.target.value)
           }
         />
+
+        {/* PRICE BREAKDOWN */}
 
         <div className="border-t pt-4 mt-6 space-y-2">
 
@@ -199,9 +224,7 @@ export default function CheckoutPage() {
 
           <div className="flex justify-between">
             <span>Delivery</span>
-            <span>
-              {DELIVERY_FEE === 0 ? "Free" : `₹${DELIVERY_FEE}`}
-            </span>
+            <span>₹{deliveryFee}</span>
           </div>
 
           <div className="flex justify-between font-bold text-lg">
