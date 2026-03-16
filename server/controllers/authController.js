@@ -65,14 +65,7 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    path: "/",
-    domain: ".onrender.com"
-  });
-
+  res.clearCookie("token");
   res.json({ message: "Logged out successfully" });
 };
 
