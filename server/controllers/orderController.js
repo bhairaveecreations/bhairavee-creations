@@ -96,6 +96,8 @@ exports.createOrder = async (req, res) => {
     try {
 
       const user = await User.findById(req.user.id);
+      console.log(user.email);
+      
 
       await sendEmail(
         user.email,
