@@ -9,7 +9,7 @@ import { Package, Sparkles, User } from "lucide-react";
 
 export default function ProfilePage() {
 
-  const { user, fetchProfile,logout } = useAuthStore();
+  const { user, fetchProfile } = useAuthStore();
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -97,7 +97,7 @@ export default function ProfilePage() {
   <button
     onClick={async () => {
   await api.post("/auth/logout");
-  logout();
+  
   router.push("/login");
 }}
     className="w-full md:w-auto border border-gray-300 px-6 py-3 rounded-full hover:bg-gray-100 transition"
