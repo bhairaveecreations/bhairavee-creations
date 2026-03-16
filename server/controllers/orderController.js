@@ -91,6 +91,9 @@ exports.updateOrderStatus = async (req, res) => {
 
     const { status } = req.body;
 
+    console.log("Updating order:", req.params.id);
+    console.log("New status:", status);
+
     const order = await Order
       .findById(req.params.id)
       .populate("userId");
@@ -108,60 +111,79 @@ exports.updateOrderStatus = async (req, res) => {
       order.paymentStatus === "advance-paid"
     ) {
 
-      const razorpayOrder = await razorpay.orders.create({
+      try {
 
-        amount: order.remainingAmount * 100,
-        currency: "INR",
-        receipt: `rem_${Date.now()}`
-      });
+        console.log("Creating Razorpay order for remaining payment");
 
-      order.remainingRazorpayOrderId = razorpayOrder.id;
+        const razorpayOrder = await razorpay.orders.create({
+          amount: order.remainingAmount * 100,
+          currency: "INR",
+          receipt: `rem_${Date.now()}`
+        });
 
-      const paymentLink =
-        `${process.env.FRONTEND_URL}/pay-remaining/${order._id}`;
+        order.remainingRazorpayOrderId = razorpayOrder.id;
 
-      order.remainingPaymentLink = paymentLink;
+        const paymentLink =
+          `${process.env.FRONTEND_URL}/pay-remaining/${order._id}`;
 
-      /* Send Email To Customer */
+        order.remainingPaymentLink = paymentLink;
 
-      await sendEmail(
-        order.userId.email,
-        "Your Order Is Ready - Remaining Payment Required",
-        `
-        <h2>Your Order Is Ready 🎉</h2>
+        /* Send Email To Customer */
 
-        <p>Hello ${order.userId.name}</p>
+        try {
 
-        <p>Your product is ready for shipping.</p>
+          await sendEmail(
+            order.userId.email,
+            "Your Order Is Ready - Remaining Payment Required",
+            `
+            <h2>Your Order Is Ready 🎉</h2>
 
-        <p><b>Total Amount:</b> ₹${order.totalAmount}</p>
-        <p><b>Advance Paid:</b> ₹${order.advanceAmount}</p>
-        <p><b>Remaining Amount:</b> ₹${order.remainingAmount}</p>
+            <p>Hello ${order.userId.name}</p>
 
-        <br/>
+            <p>Your product is ready for shipping.</p>
 
-        <a href="${paymentLink}"
-        style="
-          background:black;
-          color:white;
-          padding:12px 20px;
-          text-decoration:none;
-          border-radius:6px;
-        ">
-        Pay Remaining Amount
-        </a>
+            <p><b>Total Amount:</b> ₹${order.totalAmount}</p>
+            <p><b>Advance Paid:</b> ₹${order.advanceAmount}</p>
+            <p><b>Remaining Amount:</b> ₹${order.remainingAmount}</p>
 
-        <br/><br/>
+            <br/>
 
-        <p>After completing payment your order will be shipped.</p>
+            <a href="${paymentLink}"
+            style="
+              background:black;
+              color:white;
+              padding:12px 20px;
+              text-decoration:none;
+              border-radius:6px;
+            ">
+            Pay Remaining Amount
+            </a>
 
-        <p>Thanks,<br/>Bhairvee Creations</p>
-        `
-      );
+            <br/><br/>
 
-      console.log("Customer payment email sent");
+            <p>After completing payment your order will be shipped.</p>
+
+            <p>Thanks,<br/>Bhairvee Creations</p>
+            `
+          );
+
+          console.log("Customer payment email sent");
+
+        } catch (emailError) {
+
+          console.error("EMAIL ERROR:", emailError);
+
+        }
+
+      } catch (razorpayError) {
+
+        console.error("RAZORPAY ERROR:", razorpayError);
+
+      }
 
     }
+
+    /* Update Order Status */
 
     order.orderStatus = status;
 
