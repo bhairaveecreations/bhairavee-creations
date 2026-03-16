@@ -9,12 +9,16 @@ import { Package, Sparkles, User } from "lucide-react";
 
 export default function ProfilePage() {
 
-  const { user, fetchProfile,logout } = useAuthStore();
+  const { user, fetchProfile, logout } = useAuthStore();
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<any[]>([]);
   const [customOrders, setCustomOrders] = useState<any[]>([]);
+
+  /* --------------------------
+     Load Profile + Orders
+  --------------------------- */
 
   useEffect(() => {
 
@@ -22,8 +26,16 @@ export default function ProfilePage() {
 
       try {
 
-        if (!user) {
+        let currentUser = user;
+
+        if (!currentUser) {
           await fetchProfile();
+          currentUser = useAuthStore.getState().user;
+        }
+
+        if (!currentUser) {
+          router.replace("/login");
+          return;
         }
 
         const ordersRes = await api.get("/orders/my");
@@ -34,25 +46,43 @@ export default function ProfilePage() {
 
       } catch (error) {
 
-        router.push("/login");
+        router.replace("/login");
+
+      } finally {
+
+        setLoading(false);
 
       }
-
-      setLoading(false);
 
     };
 
     loadData();
 
-  }, [user]);
+  }, []);
 
-  useEffect(() => {
+  /* --------------------------
+     Logout Handler
+  --------------------------- */
 
-    if (!loading && !user) {
-      router.push("/login");
+  const handleLogout = async () => {
+
+    try {
+
+      await logout();
+
+      router.replace("/login");
+
+    } catch (error) {
+
+      console.error("Logout error", error);
+
     }
 
-  }, [user, loading]);
+  };
+
+  /* --------------------------
+     Loading Screen
+  --------------------------- */
 
   if (loading) {
 
@@ -74,38 +104,34 @@ export default function ProfilePage() {
 
         <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
-  <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
 
-    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#D4AF37]/20 flex items-center justify-center shrink-0">
-      <User size={22} className="text-[#2B1B14]" />
-    </div>
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#D4AF37]/20 flex items-center justify-center shrink-0">
+              <User size={22} className="text-[#2B1B14]" />
+            </div>
 
-    <div>
+            <div>
 
-      <h1 className="text-2xl md:text-3xl font-serif text-[#2B1B14] leading-tight">
-        Welcome, {user?.name}
-      </h1>
+              <h1 className="text-2xl md:text-3xl font-serif text-[#2B1B14] leading-tight">
+                Welcome, {user?.name}
+              </h1>
 
-      <p className="text-gray-500 text-sm md:text-base mt-1 break-all">
-        {user?.email}
-      </p>
+              <p className="text-gray-500 text-sm md:text-base mt-1 break-all">
+                {user?.email}
+              </p>
 
-    </div>
+            </div>
 
-  </div>
+          </div>
 
-  <button
-    onClick={async () => {
-  await api.post("/auth/logout");
-  logout();
-  router.push("/profile");
-}}
-    className="w-full md:w-auto border border-gray-300 px-6 py-3 rounded-full hover:bg-gray-100 transition"
-  >
-    Logout
-  </button>
+          <button
+            onClick={handleLogout}
+            className="w-full md:w-auto border border-gray-300 px-6 py-3 rounded-full hover:bg-gray-100 transition"
+          >
+            Logout
+          </button>
 
-</div>
+        </div>
 
         {/* ADMIN CONTROLS */}
 
@@ -160,7 +186,6 @@ export default function ProfilePage() {
           </div>
 
         )}
-
 
         {/* ORDER HISTORY */}
 
@@ -227,18 +252,18 @@ export default function ProfilePage() {
                       </button>
 
                       {order.orderStatus === "ready-for-shipping" &&
-                       order.paymentStatus === "advance-paid" && (
+                        order.paymentStatus === "advance-paid" && (
 
-                        <button
-                          onClick={() =>
-                            router.push(`/pay-remaining/${order._id}`)
-                          }
-                          className="block mt-4 bg-black text-white px-5 py-2 rounded hover:opacity-80"
-                        >
-                          Pay Remaining Amount
-                        </button>
+                          <button
+                            onClick={() =>
+                              router.push(`/pay-remaining/${order._id}`)
+                            }
+                            className="block mt-4 bg-black text-white px-5 py-2 rounded hover:opacity-80"
+                          >
+                            Pay Remaining Amount
+                          </button>
 
-                      )}
+                        )}
 
                     </div>
 
@@ -249,7 +274,6 @@ export default function ProfilePage() {
               )}
 
             </div>
-
 
             {/* CUSTOM ORDERS */}
 

@@ -3,10 +3,14 @@
 import { useState } from "react";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function RegisterPage() {
 
   const router = useRouter();
+  const { fetchProfile } = useAuthStore();
+
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -15,23 +19,38 @@ export default function RegisterPage() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
 
     try {
+
+      setLoading(true);
+
       await api.post("/auth/register", form);
+
+      await fetchProfile();
+
       router.push("/profile");
-    } catch (error) {
-      alert("Registration failed");
+
+    } catch (error: any) {
+
+      alert(
+        error.response?.data?.message ||
+        "Registration failed"
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
+
   };
 
   return (
-
     <main className="min-h-screen bg-[#F8F6F2] flex items-center justify-center px-6">
 
       <div className="w-full max-w-md">
-
-        {/* Brand */}
 
         <h1 className="text-center text-3xl font-serif text-[#2B1B14] mb-2">
           Bhairvee
@@ -41,71 +60,48 @@ export default function RegisterPage() {
           Create an account to begin your sacred resin journey
         </p>
 
-        {/* Card */}
-
         <div className="bg-white rounded-2xl shadow-xl p-8">
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Name */}
+            <input
+              required
+              placeholder="Your full name"
+              value={form.name}
+              className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3"
+              onChange={(e) =>
+                setForm({ ...form, name: e.target.value })
+              }
+            />
 
-            <div>
-              <label className="text-sm text-gray-600">
-                Name
-              </label>
+            <input
+              required
+              type="email"
+              placeholder="you@example.com"
+              value={form.email}
+              className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3"
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
 
-              <input
-                placeholder="Your full name"
-                className="w-full mt-1 bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none"
-                onChange={(e) =>
-                  setForm({ ...form, name: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Email */}
-
-            <div>
-              <label className="text-sm text-gray-600">
-                Email
-              </label>
-
-              <input
-                type="email"
-                placeholder="you@example.com"
-                className="w-full mt-1 bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none"
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Password */}
-
-            <div>
-              <label className="text-sm text-gray-600">
-                Password
-              </label>
-
-              <input
-                type="password"
-                placeholder="Create a password"
-                className="w-full mt-1 bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none"
-                onChange={(e) =>
-                  setForm({ ...form, password: e.target.value })
-                }
-              />
-            </div>
-
-            {/* Register Button */}
+            <input
+              required
+              type="password"
+              placeholder="Create a password"
+              value={form.password}
+              className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3"
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+            />
 
             <button
-              className="w-full bg-gradient-to-r from-[#D4AF37] to-[#C19A2B] text-black py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-[#D4AF37] to-[#C19A2B] text-black py-3 rounded-xl font-semibold"
             >
-              Create Account
+              {loading ? "Creating account..." : "Create Account"}
             </button>
-
-            {/* Login Link */}
 
             <p className="text-center text-sm text-gray-500 mt-4">
               Already have an account?{" "}
@@ -124,6 +120,5 @@ export default function RegisterPage() {
       </div>
 
     </main>
-
   );
 }
