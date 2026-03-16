@@ -121,13 +121,34 @@ export default function AdminOrdersPage() {
   };
 
   /* --------------------------
+     Status Badge Colors
+  -------------------------- */
+
+  const statusStyle = (status: string) => {
+
+    switch (status) {
+      case "processing":
+        return "bg-yellow-100 text-yellow-700";
+      case "ready-for-shipping":
+        return "bg-blue-100 text-blue-700";
+      case "delivered":
+        return "bg-green-100 text-green-700";
+      case "cancelled":
+        return "bg-red-100 text-red-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+
+  };
+
+  /* --------------------------
      Loading State
   -------------------------- */
 
   if (loading) {
 
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen text-gray-600 text-lg">
         Loading orders...
       </div>
     );
@@ -136,80 +157,152 @@ export default function AdminOrdersPage() {
 
   return (
 
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6">
 
-      <h1 className="text-2xl font-bold mb-6">
-        Orders
-      </h1>
+      {/* Header */}
+
+      <div className="flex items-center justify-between mb-8">
+
+        <h1 className="text-3xl font-bold text-gray-800">
+          Admin Orders
+        </h1>
+
+        <span className="text-gray-500 text-sm">
+          Total Orders: {orders.length}
+        </span>
+
+      </div>
 
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+
+        <div className="text-center py-20 border rounded-lg bg-gray-50">
+          <p className="text-gray-500 text-lg">
+            No orders found
+          </p>
+        </div>
+
       ) : (
 
-        <div className="space-y-4">
+        <div className="grid gap-6">
 
           {orders.map((order) => (
 
             <div
               key={order._id}
-              className="border p-4 rounded-lg space-y-2"
+              className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition"
             >
 
-              <p>
-                <strong>Order ID:</strong> {order._id}
-              </p>
+              {/* Top Row */}
 
-              <p>
-                <strong>Total:</strong> ₹{order.totalAmount}
-              </p>
+              <div className="flex justify-between items-center mb-4">
 
-              <p>
-                <strong>Status:</strong> {order.orderStatus}
-              </p>
+                <div>
 
-              <p>
-                <strong>Payment:</strong> {order.paymentStatus}
-              </p>
+                  <p className="text-sm text-gray-500">
+                    Order ID
+                  </p>
 
-              <select
-                value={order.orderStatus}
-                onChange={(e) =>
-                  updateStatus(order._id, e.target.value)
-                }
-                className="border p-2 rounded"
-              >
+                  <p className="font-mono text-sm text-gray-800">
+                    {order._id}
+                  </p>
 
-                <option value="processing">
-                  Processing
-                </option>
+                </div>
 
-                <option value="ready-for-shipping">
-                  Ready For Shipping
-                </option>
-
-                <option value="delivered">
-                  Delivered
-                </option>
-
-                <option value="cancelled">
-                  Cancelled
-                </option>
-
-              </select>
-
-              {order.orderStatus === "ready-for-shipping" &&
-               order.paymentStatus === "advance-paid" && (
-
-                <button
-                  onClick={() =>
-                    requestRemainingPayment(order._id)
-                  }
-                  className="bg-yellow-600 text-white px-4 py-2 rounded mt-2"
+                <span
+                  className={`px-3 py-1 text-xs rounded-full font-semibold ${statusStyle(order.orderStatus)}`}
                 >
-                  Request Remaining Payment
-                </button>
+                  {order.orderStatus}
+                </span>
 
-              )}
+              </div>
+
+              {/* Order Info */}
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+
+                <div>
+                  <p className="text-gray-500 text-sm">
+                    Total Amount
+                  </p>
+                  <p className="font-semibold text-lg">
+                    ₹{order.totalAmount}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-gray-500 text-sm">
+                    Payment Status
+                  </p>
+                  <p className="font-semibold">
+                    {order.paymentStatus}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-gray-500 text-sm">
+                    Advance Paid
+                  </p>
+                  <p className="font-semibold">
+                    ₹{order.advanceAmount}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-gray-500 text-sm">
+                    Remaining
+                  </p>
+                  <p className="font-semibold">
+                    ₹{order.remainingAmount}
+                  </p>
+                </div>
+
+              </div>
+
+              {/* Controls */}
+
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+
+                <select
+                  value={order.orderStatus}
+                  onChange={(e) =>
+                    updateStatus(order._id, e.target.value)
+                  }
+                  className="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                >
+
+                  <option value="processing">
+                    Processing
+                  </option>
+
+                  <option value="ready-for-shipping">
+                    Ready For Shipping
+                  </option>
+
+                  <option value="delivered">
+                    Delivered
+                  </option>
+
+                  <option value="cancelled">
+                    Cancelled
+                  </option>
+
+                </select>
+
+                {order.orderStatus === "ready-for-shipping" &&
+                 order.paymentStatus === "advance-paid" && (
+
+                  <button
+                    onClick={() =>
+                      requestRemainingPayment(order._id)
+                    }
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md font-medium transition"
+                  >
+                    Request Remaining Payment
+                  </button>
+
+                )}
+
+              </div>
 
             </div>
 
