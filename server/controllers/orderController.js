@@ -128,6 +128,8 @@ exports.updateOrderStatus = async (req, res) => {
 
     order.orderStatus = status;
     await order.save();
+    console.log("before email ");
+    
     
     // Notify customer about status change
     try {
@@ -144,7 +146,8 @@ exports.updateOrderStatus = async (req, res) => {
     } catch (e) {
       console.error("Status email failed:", e);
     }
-
+    console.log("yes here");
+    
     res.json({ success: true, order });
   } catch (error) {
     console.error("UPDATE STATUS ERROR:", error);
