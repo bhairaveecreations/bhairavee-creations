@@ -158,88 +158,93 @@ export default function AdminOrdersPage() {
 
       {/* Orders */}
 
-      <div className="space-y-5">
+      <div className="space-y-4">
 
-        {filteredOrders.map((order)=>(
-          
-          <div
-            key={order._id}
-            className="bg-white border rounded-xl p-5 shadow-sm"
-          >
+{filteredOrders.map((order)=>(
+  
+<div
+key={order._id}
+className="bg-white border rounded-lg p-4"
+>
 
-            <div className="flex justify-between mb-4">
+{/* Top */}
 
-              <p className="text-xs text-gray-500 break-all">
-                {order._id}
-              </p>
+<div className="flex justify-between text-xs text-gray-500 mb-2">
 
-              <span className="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
-                {order.orderStatus}
-              </span>
+<span className="break-all">
+{order._id}
+</span>
 
-            </div>
+<span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">
+{order.orderStatus}
+</span>
 
-
-            <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-
-              <div>
-                <p className="text-gray-500">Total</p>
-                <p className="font-semibold">₹{order.totalAmount}</p>
-              </div>
-
-              <div>
-                <p className="text-gray-500">Payment</p>
-                <p>{order.paymentStatus}</p>
-              </div>
-
-              <div>
-                <p className="text-gray-500">Advance</p>
-                <p>₹{order.advanceAmount}</p>
-              </div>
-
-              <div>
-                <p className="text-gray-500">Remaining</p>
-                <p>₹{order.remainingAmount}</p>
-              </div>
-
-            </div>
+</div>
 
 
-            <div className="flex flex-col sm:flex-row gap-3">
+{/* Order Grid */}
 
-              <select
-                value={order.orderStatus}
-                onChange={(e)=>updateStatus(order._id,e.target.value)}
-                className="border rounded-lg px-3 py-2"
-              >
+<div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
 
-                <option value="processing">Processing</option>
-                <option value="ready-for-shipping">Ready For Shipping</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
+<div>
+<p className="text-gray-500">Total</p>
+<p className="font-semibold">₹{order.totalAmount}</p>
+</div>
 
-              </select>
+<div>
+<p className="text-gray-500">Payment</p>
+<p>{order.paymentStatus}</p>
+</div>
+
+<div>
+<p className="text-gray-500">Advance</p>
+<p>₹{order.advanceAmount}</p>
+</div>
+
+<div>
+<p className="text-gray-500">Remaining</p>
+<p>₹{order.remainingAmount}</p>
+</div>
+
+</div>
 
 
-              {order.orderStatus === "ready-for-shipping" &&
-               order.paymentStatus === "advance-paid" && (
+{/* Actions */}
 
-                <button
-                  onClick={()=>requestRemainingPayment(order._id)}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Request Remaining Payment
-                </button>
+<div className="flex flex-col sm:flex-row gap-2 mt-4">
 
-              )}
+<select
+value={order.orderStatus}
+onChange={(e)=>updateStatus(order._id,e.target.value)}
+className="border rounded-md px-3 py-2 text-sm"
+>
 
-            </div>
+<option value="processing">Processing</option>
+<option value="ready-for-shipping">Ready For Shipping</option>
+<option value="delivered">Delivered</option>
+<option value="cancelled">Cancelled</option>
 
-          </div>
+</select>
 
-        ))}
+{order.orderStatus === "ready-for-shipping" &&
+order.paymentStatus === "advance-paid" && (
 
-      </div>
+<button
+onClick={()=>requestRemainingPayment(order._id)}
+className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm"
+>
+
+Request Remaining Payment
+
+</button>
+
+)}
+
+</div>
+
+</div>
+
+))}
 
     </div>
 
