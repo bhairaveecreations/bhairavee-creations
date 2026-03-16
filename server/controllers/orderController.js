@@ -5,18 +5,20 @@ const sendEmail = require("../utils/sendEmail");
 
 // Create Order
 exports.createOrder = async (req, res) => {
+
   try {
+
     const { items, shippingAddress } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
     }
-
+    
     let calculatedTotal = 0;
     const validatedItems = [];
 
     for (const item of items) {
-      // 1️⃣ Check product exists
+
       const product = await Product.findById(item.productId);
 
       if (!product) {
@@ -25,14 +27,12 @@ exports.createOrder = async (req, res) => {
         });
       }
 
-      // 2️⃣ Check stock availability
       if (product.stock < item.quantity) {
         return res.status(400).json({
           message: `${product.title} is out of stock`,
         });
       }
 
-      // 3️⃣ Calculate correct price (DON'T trust frontend)
       const itemTotal = product.price * item.quantity;
       calculatedTotal += itemTotal;
 
@@ -43,9 +43,9 @@ exports.createOrder = async (req, res) => {
         quantity: item.quantity,
         image: product.images?.[0] || "",
       });
+
     }
 
-    // 4️⃣ Create Order using validated data
     const order = await Order.create({
       userId: req.user.id,
       items: validatedItems,
@@ -53,19 +53,52 @@ exports.createOrder = async (req, res) => {
       shippingAddress,
     });
 
-    // 5️⃣ Reduce stock after order creation
     for (const item of validatedItems) {
       await Product.findByIdAndUpdate(item.productId, {
         $inc: { stock: -item.quantity },
       });
     }
 
+    /* SEND EMAIL TO OWNER */
+
+    try {
+
+      const user = await User.findById(req.user.id);
+
+      await sendEmail(
+        process.env.ADMIN_EMAIL,
+        "New Order Received",
+        `
+        <h2>New Order Received</h2>
+
+        <p><b>Customer:</b> ${user.name}</p>
+        <p><b>Email:</b> ${user.email}</p>
+        
+
+        <p><b>Total Amount:</b> ₹${calculatedTotal}</p>
+
+        <p><b>Order ID:</b> ${order._id}</p>
+        `
+      );
+
+      console.log("Admin notified of new order");
+
+    } catch (err) {
+
+      console.error("ADMIN EMAIL ERROR:", err);
+
+    }
+
     res.status(201).json(order);
 
   } catch (error) {
+
     console.error(error);
+
     res.status(500).json({ message: "Server error" });
+
   }
+
 };
 // Get User Orders
 exports.getMyOrders = async (req, res) => {
