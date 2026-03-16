@@ -95,10 +95,10 @@ export default function ProfilePage() {
   </div>
 
   <button
-    onClick={() => {
-      api.post("/auth/logout");
-      router.push("/");
-    }}
+    onClick={async () => {
+  await api.post("/auth/logout");
+  router.push("/login");
+}}
     className="w-full md:w-auto border border-gray-300 px-6 py-3 rounded-full hover:bg-gray-100 transition"
   >
     Logout
