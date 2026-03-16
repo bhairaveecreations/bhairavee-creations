@@ -128,7 +128,8 @@ exports.updateOrderStatus = async (req, res) => {
 
     order.orderStatus = status;
     await order.save();
-
+    console.log(order);
+    
     // Notify customer about status change
     try {
       await sendEmail(
