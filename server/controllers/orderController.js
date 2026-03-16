@@ -2,6 +2,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product"); 
 const razorpay = require("../config/razorpay");
 const sendEmail = require("../utils/sendEmail");
+const User = require("../models/User");
 
 // Create Order
 exports.createOrder = async (req, res) => {
