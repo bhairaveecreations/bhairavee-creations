@@ -139,7 +139,7 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Orders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 w-1">
 
         {filteredOrders.length === 0 && (
           <div className="col-span-full text-center text-gray-400 py-10">
