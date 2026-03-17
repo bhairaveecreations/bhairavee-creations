@@ -95,31 +95,45 @@ export default function AdminLayout({ children }: any) {
       </div>
 
       {/* 🔥 Desktop Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-white border-r p-6 flex-col">
+<aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-white border-r px-4 py-6 flex-col">
 
-        <h2 className="text-xl font-semibold mb-6">Admin</h2>
+  {/* Title */}
+  <h2 className="text-lg font-semibold px-3 mb-6 text-gray-800">
+    Admin
+  </h2>
 
-        <nav className="flex flex-col gap-2 text-sm">
+  {/* Nav */}
+  <nav className="flex flex-col gap-1 text-sm">
 
-          <Link href="/admin/dashboard" className="p-3 rounded-lg hover:bg-gray-100">
-            Dashboard
-          </Link>
+    {[
+      { name: "Dashboard", href: "/admin/dashboard" },
+      { name: "Orders", href: "/admin/orders" },
+      { name: "Custom Orders", href: "/admin/custom-orders" },
+      { name: "Create Product", href: "/admin/products/create" }
+    ].map((item) => {
 
-          <Link href="/admin/orders" className="p-3 rounded-lg hover:bg-gray-100">
-            Orders
-          </Link>
+      const isActive = typeof window !== "undefined" &&
+        window.location.pathname === item.href;
 
-          <Link href="/admin/custom-orders" className="p-3 rounded-lg hover:bg-gray-100">
-            Custom Orders
-          </Link>
+      return (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={`px-3 py-2 rounded-lg transition flex items-center justify-between
+            ${
+              isActive
+                ? "bg-black text-white shadow-sm"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+        >
+          {item.name}
+        </Link>
+      );
+    })}
 
-          <Link href="/admin/products/create" className="p-3 rounded-lg hover:bg-gray-100">
-            Create Product
-          </Link>
+  </nav>
 
-        </nav>
-
-      </aside>
+</aside>
 
       {/* Main */}
       <div className="lg:ml-64 flex flex-col min-h-screen">
