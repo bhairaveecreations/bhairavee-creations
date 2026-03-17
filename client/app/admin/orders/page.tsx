@@ -1,4 +1,138 @@
-return (
+"use client";
+
+import { useEffect, useState } from "react";
+import api from "@/lib/api";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/useAuthStore";
+
+export default function AdminOrdersPage() {
+
+  const router = useRouter();
+  const { user, fetchProfile } = useAuthStore();
+
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
+
+  /* Fetch Orders */
+
+  const fetchOrders = async () => {
+
+    try {
+
+      const res = await api.get("/orders");
+
+      setOrders(res.data);
+
+    } catch (error: any) {
+
+      if (error.response?.status === 401) {
+        router.replace("/login");
+      }
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+  /* Initial Load */
+
+  useEffect(() => {
+
+    const load = async () => {
+
+      if (!user) {
+        await fetchProfile();
+      }
+
+      const currentUser = user || useAuthStore.getState().user;
+
+      if (!currentUser) {
+        router.replace("/login");
+        return;
+      }
+
+      if (currentUser.role !== "admin") {
+        router.replace("/");
+        return;
+      }
+
+      fetchOrders();
+
+    };
+
+    load();
+
+  }, []);
+
+  /* Update Status */
+
+  const updateStatus = async (id: string, status: string) => {
+
+    try {
+
+      const res = await api.put(`/orders/${id}`, { status });
+
+      const updatedOrder = res.data.order || res.data;
+
+      setOrders((prev) =>
+        prev.map((order) =>
+          order._id === id ? updatedOrder : order
+        )
+      );
+
+    } catch {
+
+      alert("Failed to update order");
+
+    }
+
+  };
+
+  /* Request Remaining Payment */
+
+  const requestRemainingPayment = async (id: string) => {
+
+    try {
+
+      await api.post(`/orders/request-payment/${id}`);
+
+      alert("Payment request sent to customer");
+
+    } catch (error: any) {
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to send payment request"
+      );
+
+    }
+
+  };
+
+  /* Filter Orders */
+
+  const filteredOrders =
+    filter === "all"
+      ? orders
+      : orders.filter((o) => o.orderStatus === filter);
+
+  /* Loading */
+
+  if (loading) {
+
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        Loading orders...
+      </div>
+    );
+
+  }
+
+  return (
   <div className="max-w-3xl mx-auto px-3 pb-20">
 
     {/* Header */}
@@ -130,3 +264,4 @@ return (
 
   </div>
 );
+}
