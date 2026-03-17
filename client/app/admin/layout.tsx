@@ -11,17 +11,16 @@ export default function AdminLayout({ children }: any) {
   const { user, fetchProfile } = useAuthStore();
   const router = useRouter();
 
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchProfile();
   }, []);
 
-  const openSidebar = () => {
-
-    gsap.to(sidebarRef.current, {
-      x: 0,
+  const openDrawer = () => {
+    gsap.to(drawerRef.current, {
+      y: 0,
       duration: 0.35,
       ease: "power3.out"
     });
@@ -31,13 +30,11 @@ export default function AdminLayout({ children }: any) {
       pointerEvents: "auto",
       duration: 0.3
     });
-
   };
 
-  const closeSidebar = () => {
-
-    gsap.to(sidebarRef.current, {
-      x: "-100%",
+  const closeDrawer = () => {
+    gsap.to(drawerRef.current, {
+      y: "100%",
       duration: 0.35,
       ease: "power3.in"
     });
@@ -47,7 +44,6 @@ export default function AdminLayout({ children }: any) {
       pointerEvents: "none",
       duration: 0.3
     });
-
   };
 
   if (!user) return <p className="p-10">Loading...</p>;
@@ -59,66 +55,65 @@ export default function AdminLayout({ children }: any) {
 
   return (
 
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
 
       {/* Overlay */}
-
       <div
         ref={overlayRef}
-        onClick={closeSidebar}
-        className="fixed inset-0 bg-black/40 opacity-0 pointer-events-none z-30 lg:hidden"
+        onClick={closeDrawer}
+        className="fixed inset-0 bg-black/40 opacity-0 pointer-events-none z-40"
       />
 
-      {/* Sidebar */}
-
-      <aside
-        ref={sidebarRef}
-        className="
-        fixed lg:static
-        top-0 left-0
-        h-full w-64
-        bg-white
-        border-r
-        z-40
-        -translate-x-full lg:translate-x-0
-        "
+      {/* 🔥 Mobile Bottom Drawer */}
+      <div
+        ref={drawerRef}
+        className="fixed bottom-0 left-0 w-full bg-white rounded-t-2xl p-5 z-50 translate-y-full"
       >
 
-        <div className="p-6 border-b">
+        <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
 
-          <h2 className="text-xl font-semibold tracking-wide">
-            Admin
-          </h2>
+        <nav className="flex flex-col gap-3 text-sm">
 
-        </div>
-
-        <nav className="flex flex-col text-sm p-4">
-
-          <Link
-            href="/admin/dashboard"
-            className="px-4 py-3 rounded-lg hover:bg-gray-100"
-          >
+          <Link href="/admin/dashboard" onClick={closeDrawer} className="p-3 rounded-lg hover:bg-gray-100">
             Dashboard
           </Link>
 
-          <Link
-            href="/admin/orders"
-            className="px-4 py-3 rounded-lg hover:bg-gray-100"
-          >
+          <Link href="/admin/orders" onClick={closeDrawer} className="p-3 rounded-lg hover:bg-gray-100">
             Orders
           </Link>
 
-          <Link
-            href="/admin/custom-orders"
-            className="px-4 py-3 rounded-lg hover:bg-gray-100"
-          >
+          <Link href="/admin/custom-orders" onClick={closeDrawer} className="p-3 rounded-lg hover:bg-gray-100">
             Custom Orders
           </Link>
 
-          <Link
-            href="/admin/products/create"
-            className="px-4 py-3 rounded-lg hover:bg-gray-100"
-          >
+          <Link href="/admin/products/create" onClick={closeDrawer} className="p-3 rounded-lg hover:bg-gray-100">
+            Create Product
+          </Link>
+
+        </nav>
+
+      </div>
+
+      {/* 🔥 Desktop Sidebar */}
+      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-white border-r p-6 flex-col">
+
+        <h2 className="text-xl font-semibold mb-6">Admin</h2>
+
+        <nav className="flex flex-col gap-2 text-sm">
+
+          <Link href="/admin/dashboard" className="p-3 rounded-lg hover:bg-gray-100">
+            Dashboard
+          </Link>
+
+          <Link href="/admin/orders" className="p-3 rounded-lg hover:bg-gray-100">
+            Orders
+          </Link>
+
+          <Link href="/admin/custom-orders" className="p-3 rounded-lg hover:bg-gray-100">
+            Custom Orders
+          </Link>
+
+          <Link href="/admin/products/create" className="p-3 rounded-lg hover:bg-gray-100">
             Create Product
           </Link>
 
@@ -126,29 +121,25 @@ export default function AdminLayout({ children }: any) {
 
       </aside>
 
-
       {/* Main */}
-
-      <div className="flex-1 flex flex-col">
+      <div className="lg:ml-64 flex flex-col min-h-screen">
 
         {/* Topbar */}
-
-        <header className="flex items-center justify-between px-4 lg:px-8 py-4 bg-white border-b">
+        <header className="flex items-center justify-between px-4 py-4 bg-white border-b sticky top-0 z-30">
 
           <button
-            onClick={openSidebar}
+            onClick={openDrawer}
             className="lg:hidden text-xl"
           >
             ☰
           </button>
 
-          <h1 className="font-semibold">
-            Admin Panel
-          </h1>
+          <h1 className="font-semibold">Admin Panel</h1>
 
         </header>
 
-        <main className="p-4 lg:p-8">
+        {/* Content */}
+        <main className="flex-1 px-3 sm:px-4 lg:px-8 py-4">
           {children}
         </main>
 
@@ -157,5 +148,4 @@ export default function AdminLayout({ children }: any) {
     </div>
 
   );
-
 }
