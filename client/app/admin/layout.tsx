@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: any) {
 
   const { user, fetchProfile } = useAuthStore();
   const router = useRouter();
+  const pathname = usePathname(); // ✅ FIXED ACTIVE STATE
 
   useEffect(() => {
     fetchProfile();
@@ -30,9 +31,9 @@ export default function AdminLayout({ children }: any) {
 
   return (
 
-    <div className="min-h-screen flex bg-gradient-to-br from-[#f8f6f3] to-[#f1eee9]">
+    <div className="min-h-screen flex bg-gradient-to-br from-[#f8f6f3] to-[#f1eee9] overflow-x-hidden">
 
-      {/* 🌟 Sidebar (Luxury Style) */}
+      {/* 🌟 Sidebar (Desktop) */}
       <aside className="hidden lg:flex w-64 flex-col justify-between bg-white/70 backdrop-blur-xl border-r border-gray-200 px-5 py-6">
 
         <div>
@@ -44,15 +45,13 @@ export default function AdminLayout({ children }: any) {
 
             {navItems.map((item) => {
 
-              const isActive =
-                typeof window !== "undefined" &&
-                window.location.pathname === item.href;
+              const isActive = pathname === item.href; // ✅ INSTANT ACTIVE
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-4 py-2.5 rounded-xl transition-all
+                  className={`px-4 py-2.5 rounded-xl transition-all duration-200 ease-in-out
                   ${
                     isActive
                       ? "bg-black text-white shadow-md"
@@ -77,7 +76,7 @@ export default function AdminLayout({ children }: any) {
       <div className="flex-1 flex flex-col">
 
         {/* Topbar */}
-        <header className="flex items-center justify-between px-4 lg:px-8 py-4 bg-white/70 backdrop-blur-xl border-b">
+        <header className="flex items-center justify-between px-4 lg:px-8 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
 
           <h1 className="font-medium tracking-wide text-gray-800">
             Admin Panel
@@ -93,5 +92,6 @@ export default function AdminLayout({ children }: any) {
       </div>
 
     </div>
+
   );
 }
