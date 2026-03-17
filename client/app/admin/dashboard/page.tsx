@@ -2,20 +2,7 @@
 
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
 
-const COLORS = ["#22c55e", "#facc15", "#ef4444"];
 
 export default function AdminDashboard() {
 
@@ -37,8 +24,7 @@ export default function AdminDashboard() {
     );
   }
 
-  const monthlyRevenue = stats.monthlyRevenue || [];
-  const orderStatusStats = stats.orderStatusStats || [];
+
   const topProducts = stats.topProducts || [];
   const recentOrders = stats.recentOrders || [];
   const latestCustomOrders = stats.latestCustomOrders || [];
@@ -65,83 +51,7 @@ export default function AdminDashboard() {
 
       </div>
 
-      {/* CHARTS */}
-
-      <div className="grid lg:grid-cols-3 gap-8">
-
-        {/* Revenue Chart */}
-
-        <div className="lg:col-span-2 bg-white rounded-xl border shadow-sm p-6">
-
-          <h2 className="text-lg font-semibold mb-4">
-            Monthly Revenue (₹)
-          </h2>
-
-          <ResponsiveContainer width="100%" height={300}>
-
-            <LineChart data={monthlyRevenue}>
-
-              <CartesianGrid strokeDasharray="3 3" />
-
-              <XAxis dataKey="_id" />
-
-              <YAxis />
-
-              <Tooltip />
-
-              <Line
-                type="monotone"
-                dataKey="revenue"
-                stroke="#D4AF37"
-                strokeWidth={3}
-              />
-
-            </LineChart>
-
-          </ResponsiveContainer>
-
-        </div>
-
-        {/* Order Status Donut */}
-
-        <div className="bg-white rounded-xl border shadow-sm p-6">
-
-          <h2 className="text-lg font-semibold mb-4">
-            Order Status
-          </h2>
-
-          <ResponsiveContainer width="100%" height={300}>
-
-            <PieChart>
-
-              <Pie
-                data={orderStatusStats}
-                dataKey="count"
-                nameKey="_id"
-                innerRadius={60}
-                outerRadius={100}
-              >
-
-                {orderStatusStats.map((entry: any, index: number) => (
-
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-
-                ))}
-
-              </Pie>
-
-              <Tooltip />
-
-            </PieChart>
-
-          </ResponsiveContainer>
-
-        </div>
-
-      </div>
+   
 
       {/* TOP PRODUCTS */}
 
