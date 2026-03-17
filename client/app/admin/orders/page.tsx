@@ -100,7 +100,7 @@ export default function AdminOrdersPage() {
 
   return (
 
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
+    <div className="w-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -139,7 +139,7 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Orders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 w-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 ">
 
         {filteredOrders.length === 0 && (
           <div className="col-span-full text-center text-gray-400 py-10">
