@@ -9,7 +9,7 @@ export default function AdminLayout({ children }: any) {
 
   const { user, fetchProfile } = useAuthStore();
   const router = useRouter();
-  const pathname = usePathname(); // ✅ FIXED ACTIVE STATE
+  const pathname = usePathname();
 
   useEffect(() => {
     fetchProfile();
@@ -23,35 +23,34 @@ export default function AdminLayout({ children }: any) {
   }
 
   const navItems = [
-    { name: "Dashboard", href: "/admin/dashboard" },
-    { name: "Orders", href: "/admin/orders" },
-    { name: "Custom Orders", href: "/admin/custom-orders" },
-    { name: "Create Product", href: "/admin/products/create" }
+    { name: "Dashboard", href: "/admin/dashboard", icon: "🏠" },
+    { name: "Orders", href: "/admin/orders", icon: "📦" },
+    { name: "Custom", href: "/admin/custom-orders", icon: "🛠" },
+    { name: "Create", href: "/admin/products/create", icon: "➕" }
   ];
 
   return (
 
     <div className="min-h-screen flex bg-gradient-to-br from-[#f8f6f3] to-[#f1eee9] overflow-x-hidden">
 
-      {/* 🌟 Sidebar (Desktop) */}
+      {/* 🖥️ Desktop Sidebar */}
       <aside className="hidden lg:flex w-64 flex-col justify-between bg-white/70 backdrop-blur-xl border-r border-gray-200 px-5 py-6">
 
         <div>
-          <h2 className="text-lg font-semibold mb-8 tracking-wide text-gray-800">
+          <h2 className="text-lg font-semibold mb-8 text-gray-800">
             Bhairvee Admin
           </h2>
 
           <nav className="flex flex-col gap-2 text-sm">
 
             {navItems.map((item) => {
-
-              const isActive = pathname === item.href; // ✅ INSTANT ACTIVE
+              const isActive = pathname === item.href;
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-4 py-2.5 rounded-xl transition-all duration-200 ease-in-out
+                  className={`px-4 py-2.5 rounded-xl transition-all
                   ${
                     isActive
                       ? "bg-black text-white shadow-md"
@@ -67,27 +66,69 @@ export default function AdminLayout({ children }: any) {
         </div>
 
         <p className="text-xs text-gray-400">
-          © Bhairvee Creations
+          © Bhairvee
         </p>
 
       </aside>
 
-      {/* 🌟 Main */}
+      {/* 📱 Main */}
       <div className="flex-1 flex flex-col">
 
         {/* Topbar */}
-        <header className="flex items-center justify-between px-4 lg:px-8 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
-
-          <h1 className="font-medium tracking-wide text-gray-800">
+        <header className="flex items-center justify-between px-4 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
+          <h1 className="font-medium text-gray-800">
             Admin Panel
           </h1>
-
         </header>
 
         {/* Content */}
-        <main className="flex-1 px-3 sm:px-6 lg:px-10 py-6">
+        <main className="flex-1 px-3 sm:px-6 lg:px-10 py-6 pb-24">
           {children}
         </main>
+
+        {/* 📱 Mobile Bottom Nav */}
+        <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-xl border-t z-50">
+
+          <div className="flex justify-around py-2">
+
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex flex-col items-center text-xs"
+                >
+                  <span
+                    className={`text-lg ${
+                      isActive ? "text-black" : "text-gray-400"
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+
+                  <span
+                    className={`${
+                      isActive
+                        ? "text-black font-medium"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+
+                  {isActive && (
+                    <div className="w-1.5 h-1.5 bg-black rounded-full mt-1" />
+                  )}
+
+                </Link>
+              );
+            })}
+
+          </div>
+
+        </div>
 
       </div>
 
