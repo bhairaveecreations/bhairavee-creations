@@ -103,7 +103,7 @@ export default function AdminOrdersPage() {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-20 overflow-x-hidden">
 
       {/* Header */}
-      <div className="flex items-center justify-between py-4 sticky top-0 bg-white z-10">
+      <div className="flex items-center justify-between py-4 sticky top-0  z-10">
         <h1 className="text-lg font-semibold">Orders</h1>
         <span className="text-xs text-gray-500">
           {orders.length} orders
