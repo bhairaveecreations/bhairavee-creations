@@ -47,80 +47,128 @@ export default function AdminDashboard() {
       </div>
 
       {/* TOP PRODUCTS */}
-      <Section title="Top Products">
+    <Section title="Top Products">
 
-        {topProducts.length === 0 ? (
-          <Empty text="No product data yet" />
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] text-sm table-fixed">
+  {topProducts.length === 0 ? (
+    <Empty text="No product data yet" />
+  ) : (
+    <>
+      {/* 📱 MOBILE CARD SCROLL */}
+      <div className="flex gap-4 overflow-x-auto pb-2 sm:hidden">
 
-              <thead>
-                <tr className="border-b text-[#8a7a65]">
-                  <th className="text-left py-3 w-1/3">Product</th>
-                  <th className="text-left w-1/3">Sold</th>
-                  <th className="text-left w-1/3">Revenue</th>
-                </tr>
-              </thead>
+        {topProducts.map((p: any) => (
+          <div
+            key={p._id}
+            className="min-w-[220px] p-4 rounded-2xl bg-white/30 backdrop-blur-xl border border-white/20"
+          >
+            <p className="font-medium text-[#2B1B14]">
+              {p.title}
+            </p>
 
-              <tbody>
-                {topProducts.map((p: any) => (
-                  <tr key={p._id} className="border-b hover:bg-white/20 transition">
-                    <td className="py-3 whitespace-nowrap">{p.title}</td>
-                    <td>{p.totalSold}</td>
-                    <td className="font-medium text-[#2B1B14]">
-                      ₹{p.revenue}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+            <p className="text-xs text-[#7a6a58] mt-1">
+              Sold: {p.totalSold}
+            </p>
 
-            </table>
+            <p className="text-sm font-semibold mt-1 text-[#2B1B14]">
+              ₹{p.revenue}
+            </p>
           </div>
-        )}
+        ))}
 
-      </Section>
+      </div>
+
+      {/* 💻 DESKTOP TABLE */}
+      <div className="hidden sm:block overflow-x-auto">
+
+        <table className="w-full min-w-[600px] text-sm table-fixed">
+
+          <thead>
+            <tr className="border-b text-[#8a7a65]">
+              <th className="text-left py-3 w-1/3">Product</th>
+              <th className="text-left w-1/3">Sold</th>
+              <th className="text-left w-1/3">Revenue</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {topProducts.map((p: any) => (
+              <tr key={p._id} className="border-b hover:bg-white/20">
+                <td className="py-3">{p.title}</td>
+                <td>{p.totalSold}</td>
+                <td>₹{p.revenue}</td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+
+      </div>
+    </>
+  )}
+
+</Section>
 
       {/* RECENT ORDERS */}
-      <Section title="Recent Orders">
+     <Section title="Recent Orders">
 
-        {recentOrders.length === 0 ? (
-          <Empty text="No orders yet" />
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] text-sm table-fixed">
+  {recentOrders.length === 0 ? (
+    <Empty text="No orders yet" />
+  ) : (
+    <>
+      {/* 📱 MOBILE CARDS */}
+      <div className="flex gap-4 overflow-x-auto pb-2 sm:hidden">
 
-              <thead>
-                <tr className="border-b text-[#8a7a65]">
-                  <th className="text-left py-3 w-1/3">Order</th>
-                  <th className="text-left w-1/3">Total</th>
-                  <th className="text-left w-1/3">Status</th>
-                </tr>
-              </thead>
+        {recentOrders.map((order: any) => (
+          <div
+            key={order._id}
+            className="min-w-[220px] p-4 rounded-2xl bg-white/30 backdrop-blur-xl border border-white/20"
+          >
+            <p className="text-sm font-medium text-[#2B1B14]">
+              #{order._id.slice(-6)}
+            </p>
 
-              <tbody>
-                {recentOrders.map((order: any) => (
-                  <tr key={order._id} className="border-b hover:bg-white/20 transition">
+            <p className="text-xs text-[#7a6a58]">
+              ₹{order.totalAmount}
+            </p>
 
-                    <td className="py-3 whitespace-nowrap">
-                      #{order._id.slice(-6)}
-                    </td>
-
-                    <td>₹{order.totalAmount}</td>
-
-                    <td>
-                      <StatusBadge status={order.orderStatus} />
-                    </td>
-
-                  </tr>
-                ))}
-              </tbody>
-
-            </table>
+            <div className="mt-2">
+              <StatusBadge status={order.orderStatus} />
+            </div>
           </div>
-        )}
+        ))}
 
-      </Section>
+      </div>
+
+      {/* 💻 DESKTOP TABLE */}
+      <div className="hidden sm:block overflow-x-auto">
+
+        <table className="w-full min-w-[600px] text-sm table-fixed">
+
+          <thead>
+            <tr className="border-b text-[#8a7a65]">
+              <th className="text-left py-3 w-1/3">Order</th>
+              <th className="text-left w-1/3">Total</th>
+              <th className="text-left w-1/3">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {recentOrders.map((order: any) => (
+              <tr key={order._id} className="border-b hover:bg-white/20">
+                <td className="py-3">#{order._id.slice(-6)}</td>
+                <td>₹{order.totalAmount}</td>
+                <td><StatusBadge status={order.orderStatus} /></td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+
+      </div>
+    </>
+  )}
+
+</Section>
 
       {/* CUSTOM REQUESTS */}
       <Section title="Custom Requests">
