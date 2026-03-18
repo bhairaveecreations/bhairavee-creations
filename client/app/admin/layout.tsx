@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: any) {
     <div className="min-h-screen flex bg-gradient-to-br from-[#f8f6f3] to-[#f1eee9] overflow-x-hidden">
 
       {/* 🖥️ Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 flex-col justify-between bg-white/70 backdrop-blur-xl border-r border-gray-200 px-5 py-6">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col justify-between bg-white/70 backdrop-blur-xl border-r border-gray-200 px-5 py-6">
 
         <div>
           <h2 className="text-lg font-semibold mb-8 text-gray-800">
@@ -72,18 +72,28 @@ export default function AdminLayout({ children }: any) {
       </aside>
 
       {/* 📱 Main */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 w-full flex flex-col overflow-hidden">
 
         {/* Topbar */}
-        <header className="flex items-center justify-between px-4 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
+        <header className="flex items-center justify-between px-4 sm:px-6 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
           <h1 className="font-medium text-gray-800">
             Admin Panel
           </h1>
         </header>
 
-        {/* Content */}
-        <main className="flex-1 px-3 sm:px-6 lg:px-10 py-6 pb-24">
-          {children}
+        {/* 🔥 CONTENT FIX (MOST IMPORTANT) */}
+        <main className="flex-1 w-full overflow-x-hidden">
+
+          {/* CENTERED CONTAINER */}
+          <div className="max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 pb-24">
+
+            {/* PREVENT CHILD OVERFLOW */}
+            <div className="w-full min-w-0">
+              {children}
+            </div>
+
+          </div>
+
         </main>
 
         {/* 📱 Mobile Bottom Nav */}
