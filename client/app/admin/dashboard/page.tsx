@@ -15,7 +15,7 @@ export default function AdminDashboard() {
 
   if (!stats) {
     return (
-      <div className="flex items-center justify-center h-[60vh] text-gray-500">
+      <div className="flex items-center justify-center h-[60vh] text-[#6b5c4c]">
         Loading dashboard...
       </div>
     );
@@ -30,22 +30,20 @@ export default function AdminDashboard() {
 
       {/* HEADER */}
       <div>
-        <h1 className="text-xl sm:text-3xl font-bold text-[#2B1B14]">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-[#2B1B14] font-serif">
           Dashboard
         </h1>
-        <p className="text-xs sm:text-sm text-gray-500">
-          Your business at a glance
+        <p className="text-sm text-[#7a6a58]">
+          Your divine business overview
         </p>
       </div>
 
-      {/* METRIC CARDS */}
+      {/* METRICS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
         <Card title="Revenue" value={`₹${stats.totalRevenue || 0}`} />
         <Card title="Orders" value={stats.totalOrders || 0} />
         <Card title="Pending" value={stats.pendingOrders || 0} />
         <Card title="Custom" value={stats.customOrders || 0} />
-
       </div>
 
       {/* TOP PRODUCTS */}
@@ -54,13 +52,11 @@ export default function AdminDashboard() {
         {topProducts.length === 0 ? (
           <Empty text="No product data yet" />
         ) : (
-
-          <div className="w-full overflow-x-auto">
-
+          <div className="overflow-x-auto">
             <table className="w-full min-w-[600px] text-sm table-fixed">
 
               <thead>
-                <tr className="border-b text-gray-400">
+                <tr className="border-b text-[#8a7a65]">
                   <th className="text-left py-3 w-1/3">Product</th>
                   <th className="text-left w-1/3">Sold</th>
                   <th className="text-left w-1/3">Revenue</th>
@@ -69,10 +65,10 @@ export default function AdminDashboard() {
 
               <tbody>
                 {topProducts.map((p: any) => (
-                  <tr key={p._id} className="border-b hover:bg-gray-50 transition">
+                  <tr key={p._id} className="border-b hover:bg-white/20 transition">
                     <td className="py-3 whitespace-nowrap">{p.title}</td>
                     <td>{p.totalSold}</td>
-                    <td className="font-semibold text-[#2B1B14]">
+                    <td className="font-medium text-[#2B1B14]">
                       ₹{p.revenue}
                     </td>
                   </tr>
@@ -80,9 +76,7 @@ export default function AdminDashboard() {
               </tbody>
 
             </table>
-
           </div>
-
         )}
 
       </Section>
@@ -93,13 +87,11 @@ export default function AdminDashboard() {
         {recentOrders.length === 0 ? (
           <Empty text="No orders yet" />
         ) : (
-
-          <div className="w-full overflow-x-auto">
-
+          <div className="overflow-x-auto">
             <table className="w-full min-w-[600px] text-sm table-fixed">
 
               <thead>
-                <tr className="border-b text-gray-400">
+                <tr className="border-b text-[#8a7a65]">
                   <th className="text-left py-3 w-1/3">Order</th>
                   <th className="text-left w-1/3">Total</th>
                   <th className="text-left w-1/3">Status</th>
@@ -107,33 +99,25 @@ export default function AdminDashboard() {
               </thead>
 
               <tbody>
-
                 {recentOrders.map((order: any) => (
-
-                  <tr key={order._id} className="border-b hover:bg-gray-50 transition">
+                  <tr key={order._id} className="border-b hover:bg-white/20 transition">
 
                     <td className="py-3 whitespace-nowrap">
                       #{order._id.slice(-6)}
                     </td>
 
-                    <td>
-                      ₹{order.totalAmount}
-                    </td>
+                    <td>₹{order.totalAmount}</td>
 
                     <td>
                       <StatusBadge status={order.orderStatus} />
                     </td>
 
                   </tr>
-
                 ))}
-
               </tbody>
 
             </table>
-
           </div>
-
         )}
 
       </Section>
@@ -144,32 +128,32 @@ export default function AdminDashboard() {
         {latestCustomOrders.length === 0 ? (
           <Empty text="No custom requests yet" />
         ) : (
-
           <div className="space-y-3">
-
             {latestCustomOrders.map((c: any) => (
-
               <div
                 key={c._id}
-                className="p-4 rounded-2xl border bg-white shadow-sm hover:shadow-md transition"
+                className="
+                  p-4 rounded-2xl
+                  bg-white/30 backdrop-blur-xl
+                  border border-white/20
+                  shadow-sm hover:shadow-md
+                  transition hover:-translate-y-1
+                "
               >
-                <p className="font-semibold text-[#2B1B14]">
+                <p className="font-medium text-[#2B1B14]">
                   {c.productType}
                 </p>
 
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-[#7a6a58]">
                   Budget: ₹{c.budget}
                 </p>
 
-                <p className="text-sm text-gray-600 mt-1 break-words">
+                <p className="text-sm text-[#5c4d3d] mt-1 break-words">
                   {c.message}
                 </p>
               </div>
-
             ))}
-
           </div>
-
         )}
 
       </Section>
@@ -178,25 +162,46 @@ export default function AdminDashboard() {
   );
 }
 
-/* CARD */
+/* 💎 CARD */
 function Card({ title, value }: any) {
   return (
-    <div className="w-full p-4 rounded-2xl bg-white shadow-sm border hover:shadow-md transition">
-      <p className="text-xs text-gray-500">{title}</p>
-      <p className="text-xl sm:text-2xl font-bold text-[#2B1B14] mt-1 break-words">
+    <div className="
+      relative w-full p-4 rounded-2xl
+      bg-white/30 backdrop-blur-xl
+      border border-white/20
+      shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+      hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]
+      transition hover:-translate-y-1
+    ">
+
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#d4af37]/10 to-transparent" />
+
+      <p className="text-xs text-[#7a6a58]">{title}</p>
+
+      <p className="text-xl sm:text-2xl font-semibold text-[#2B1B14] mt-1">
         {value}
       </p>
+
     </div>
   );
 }
 
-/* SECTION */
+/* 💎 SECTION */
 function Section({ title, children }: any) {
   return (
-    <div className="rounded-2xl border bg-white p-4 sm:p-6 shadow-sm">
-      <h2 className="text-sm sm:text-lg font-semibold text-[#2B1B14] mb-4">
+    <div className="
+      relative rounded-2xl p-4 sm:p-6
+      bg-white/25 backdrop-blur-xl
+      border border-white/20
+      shadow-[0_8px_30px_rgba(0,0,0,0.06)]
+    ">
+
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#d4af37]/5 to-transparent" />
+
+      <h2 className="text-lg font-semibold text-[#2B1B14] mb-4 font-serif">
         {title}
       </h2>
+
       {children}
     </div>
   );
@@ -204,17 +209,17 @@ function Section({ title, children }: any) {
 
 /* EMPTY */
 function Empty({ text }: any) {
-  return <p className="text-gray-400 text-sm">{text}</p>;
+  return <p className="text-[#8a7a65] text-sm">{text}</p>;
 }
 
-/* STATUS BADGE */
+/* 💎 STATUS BADGE */
 function StatusBadge({ status }: any) {
 
   const map: any = {
-    pending: "bg-yellow-100 text-yellow-700",
-    completed: "bg-green-100 text-green-700",
-    cancelled: "bg-red-100 text-red-700",
-    "ready-for-shipping": "bg-blue-100 text-blue-700"
+    pending: "bg-yellow-100 text-yellow-800",
+    completed: "bg-green-100 text-green-800",
+    cancelled: "bg-red-100 text-red-800",
+    "ready-for-shipping": "bg-[#f5e6c8] text-[#8a6d3b]"
   };
 
   return (
