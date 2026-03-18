@@ -100,8 +100,8 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Bhairvee"
-              width={50}
-              height={20}
+              width={100}
+              height={50}
               priority
               className="
                 object-contain
@@ -223,8 +223,8 @@ export default function Navbar() {
           <Image
             src="/logo.png"
             alt="Bhairvee"
-            width={50}
-            height={40}
+            width={100}
+            height={50}
             className="opacity-90 sepia hue-rotate-[320deg] saturate-150"
           />
         </div>
