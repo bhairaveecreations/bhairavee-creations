@@ -80,12 +80,13 @@ export default function Navbar() {
       {/* 🔥 NAVBAR */}
       <header
         className={`
-          fixed top-0 left-0 w-full z-50 transition-all duration-500
-          ${scrolled
-            ? "bg-[#1A120B]/95 backdrop-blur-xl shadow-lg border-b border-[#d4af37]/20"
-            : "bg-transparent"
-          }
-        `}
+    fixed top-0 left-0 w-full z-50 transition-all duration-300
+    ${open ? "opacity-0 pointer-events-none" : "opacity-100"}
+    ${scrolled
+      ? "bg-[#1A120B]/95 backdrop-blur-xl border-b border-[#d4af37]/20"
+      : "bg-transparent"
+    }
+  `}
       >
 
         <div
@@ -99,8 +100,8 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Bhairvee"
-              width={140}
-              height={40}
+              width={110}
+              height={20}
               priority
               className="
                 object-contain
