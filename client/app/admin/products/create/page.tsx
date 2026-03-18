@@ -20,7 +20,8 @@ export default function CreateProductPage() {
 
   const [images, setImages] = useState<FileList | null>(null);
 
-  const handleSubmit = async (e: any) => {
+  /* ✅ FIXED TYPE */
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = new FormData();
@@ -48,7 +49,7 @@ export default function CreateProductPage() {
 
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
 
-      {/* 🔥 HEADER */}
+      {/* HEADER */}
       <div className="mb-8">
         <h1 className="text-3xl font-serif text-[#2B1B14]">
           Create Product
@@ -58,7 +59,7 @@ export default function CreateProductPage() {
         </p>
       </div>
 
-      {/* 💎 FORM CARD */}
+      {/* FORM */}
       <form
         onSubmit={handleSubmit}
         className="
@@ -73,7 +74,7 @@ export default function CreateProductPage() {
         {/* TITLE */}
         <Input
           placeholder="Product Title"
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setForm({ ...form, title: e.target.value })
           }
         />
@@ -81,7 +82,7 @@ export default function CreateProductPage() {
         {/* DESCRIPTION */}
         <Textarea
           placeholder="Description"
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setForm({ ...form, description: e.target.value })
           }
         />
@@ -91,14 +92,14 @@ export default function CreateProductPage() {
 
           <Input
             placeholder="Category"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, category: e.target.value })
             }
           />
 
           <Input
             placeholder="Sub Category"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, subCategory: e.target.value })
             }
           />
@@ -106,7 +107,7 @@ export default function CreateProductPage() {
           <Input
             type="number"
             placeholder="Price (₹)"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, price: e.target.value })
             }
           />
@@ -114,8 +115,11 @@ export default function CreateProductPage() {
           <Input
             type="number"
             placeholder="Stock"
-            onChange={(e) =>
-              setForm({ ...form, stock: parseInt(e.target.value) })
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setForm({
+                ...form,
+                stock: parseInt(e.target.value) || 0
+              })
             }
           />
 
@@ -130,7 +134,7 @@ export default function CreateProductPage() {
           <input
             type="checkbox"
             className="accent-[#D4AF37]"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, customizable: e.target.checked })
             }
           />
@@ -153,11 +157,13 @@ export default function CreateProductPage() {
             type="file"
             multiple
             className="text-sm"
-            onChange={(e) => setImages(e.target.files)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setImages(e.target.files)
+            }
           />
         </div>
 
-        {/* SUBMIT BUTTON */}
+        {/* SUBMIT */}
         <button
           className="
             w-full py-3 rounded-xl
@@ -177,8 +183,8 @@ export default function CreateProductPage() {
   );
 }
 
-/* 💎 REUSABLE INPUT */
-function Input({ ...props }: any) {
+/* INPUT */
+function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
@@ -193,8 +199,8 @@ function Input({ ...props }: any) {
   );
 }
 
-/* 💎 REUSABLE TEXTAREA */
-function Textarea({ ...props }: any) {
+/* TEXTAREA */
+function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       {...props}
