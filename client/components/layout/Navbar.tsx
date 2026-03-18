@@ -100,7 +100,7 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Bhairvee"
-              width={110}
+              width={50}
               height={20}
               priority
               className="
@@ -223,7 +223,7 @@ export default function Navbar() {
           <Image
             src="/logo.png"
             alt="Bhairvee"
-            width={120}
+            width={50}
             height={40}
             className="opacity-90 sepia hue-rotate-[320deg] saturate-150"
           />

@@ -37,9 +37,6 @@ export default function AdminLayout({ children }: any) {
       <aside className="hidden lg:flex w-64 shrink-0 flex-col justify-between bg-white/70 backdrop-blur-xl border-r border-gray-200 px-5 py-6">
 
         <div>
-          <h2 className="text-lg font-semibold mb-8 text-gray-800">
-            Bhairvee Admin
-          </h2>
 
           <nav className="flex flex-col gap-2 text-sm">
 
@@ -74,12 +71,6 @@ export default function AdminLayout({ children }: any) {
       {/* 📱 Main */}
       <div className="flex-1 w-full flex flex-col overflow-hidden">
 
-        {/* Topbar */}
-        <header className="flex items-center justify-between px-4 sm:px-6 py-4 bg-white/70 backdrop-blur-xl border-b sticky top-0 z-30">
-          <h1 className="font-medium text-gray-800">
-            Admin Panel
-          </h1>
-        </header>
 
         {/* 🔥 CONTENT FIX (MOST IMPORTANT) */}
         <main className="flex-1 w-full overflow-x-hidden">
