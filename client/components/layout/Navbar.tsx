@@ -3,12 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ShoppingCart, User } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export default function Navbar() {
+
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const items = useCartStore((state) => state.items);
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -35,7 +39,7 @@ export default function Navbar() {
     gsap.set(menuRef.current, { y: "-100%" });
   }, []);
 
-  /* SCROLL EFFECT */
+  /* SCROLL DETECTION */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
@@ -75,45 +79,46 @@ export default function Navbar() {
 
   }, [open]);
 
+  /* 🔥 COLOR LOGIC */
+  const isLightText = scrolled || isHome;
+
   return (
     <>
-      {/* 🔥 NAVBAR */}
+      {/* NAVBAR */}
       <header
         className={`
-    fixed top-0 left-0 w-full z-50 transition-all duration-300
-    ${open ? "opacity-0 pointer-events-none" : "opacity-100"}
-    ${scrolled
-      ? "bg-[#1A120B]/95 backdrop-blur-xl border-b border-[#d4af37]/20"
-      : "bg-transparent"
-    }
-  `}
+          fixed top-0 left-0 w-full z-50 py-3 transition-all duration-300
+          ${
+            scrolled
+              ? "bg-[#1A120B]/95 backdrop-blur-xl border-b border-[#d4af37]/20 shadow-[0_8px_30px_rgba(212,175,55,0.15)]"
+              : "bg-transparent"
+          }
+        `}
       >
 
         <div
           ref={navRef}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-[70px] flex items-center justify-between text-[#EAD8B1]"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-[70px] flex items-center justify-between"
         >
 
-          {/* 💎 LOGO */}
-          <Link href="/" className="flex items-center">
-
+          {/* LOGO */}
+          <Link
+            href="/"
+            className={`flex items-center transition-all duration-300 ${
+              open ? "opacity-0 scale-90" : "opacity-100 scale-100"
+            }`}
+          >
             <Image
               src="/logo.png"
               alt="Bhairvee"
-              width={100}
-              height={50}
+              width={110}
+              height={60}
               priority
-              className="
-                object-contain
-                opacity-90
-                sepia hue-rotate-[320deg] saturate-150
-                drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]
-              "
+              className="object-contain opacity-90 sepia hue-rotate-[320deg] saturate-150 drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
             />
-
           </Link>
 
-          {/* 💎 DESKTOP NAV */}
+          {/* DESKTOP NAV */}
           <nav className="hidden md:flex items-center gap-10 text-sm">
 
             {[
@@ -123,22 +128,30 @@ export default function Navbar() {
               { name: "Profile", href: "/profile" }
             ].map((item) => (
 
-              <Link
-                key={item.href}
-                href={item.href}
-                className="relative group"
-              >
+              <Link key={item.href} href={item.href} className="relative group">
 
-                <span className="group-hover:text-[#D4AF37] transition">
+                <span
+                  className={`
+                    transition
+                    ${
+                      isLightText
+                        ? "text-[#EAD8B1] group-hover:text-[#D4AF37]"
+                        : "text-[#2B1B14] group-hover:text-[#b8962e]"
+                    }
+                  `}
+                >
                   {item.name}
                 </span>
 
-                <span className="
-                  absolute left-0 -bottom-1 w-0 h-[1px]
-                  bg-[#D4AF37]
-                  group-hover:w-full
-                  transition-all duration-300
-                " />
+                <span
+                  className={`
+                    absolute left-0 -bottom-1 h-[1px] w-0 transition-all duration-300
+                    ${
+                      isLightText ? "bg-[#D4AF37]" : "bg-[#b8962e]"
+                    }
+                    group-hover:w-full
+                  `}
+                />
 
               </Link>
 
@@ -146,14 +159,21 @@ export default function Navbar() {
 
           </nav>
 
-          {/* 💎 RIGHT SIDE */}
+          {/* RIGHT SIDE */}
           <div className="flex items-center gap-5">
 
             {/* USER */}
             {user ? (
               <Link
                 href="/profile"
-                className="hidden md:flex items-center gap-2 hover:text-[#D4AF37]"
+                className={`
+                  hidden md:flex items-center gap-2 transition
+                  ${
+                    isLightText
+                      ? "text-[#EAD8B1] hover:text-[#D4AF37]"
+                      : "text-[#2B1B14] hover:text-[#b8962e]"
+                  }
+                `}
               >
                 <User size={20} />
                 <span>{user.name?.split(" ")[0]}</span>
@@ -161,7 +181,14 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="hidden md:block hover:text-[#D4AF37]"
+                className={`
+                  hidden md:block transition
+                  ${
+                    isLightText
+                      ? "text-[#EAD8B1] hover:text-[#D4AF37]"
+                      : "text-[#2B1B14] hover:text-[#b8962e]"
+                  }
+                `}
               >
                 Login
               </Link>
@@ -170,15 +197,19 @@ export default function Navbar() {
             {/* CART */}
             <Link href="/cart" className="relative">
 
-              <ShoppingCart className="hover:text-[#D4AF37]" />
+              <ShoppingCart
+                className={`
+                  transition
+                  ${
+                    isLightText
+                      ? "text-[#EAD8B1] hover:text-[#D4AF37]"
+                      : "text-[#2B1B14] hover:text-[#b8962e]"
+                  }
+                `}
+              />
 
               {totalItems > 0 && (
-                <span className="
-                  absolute -top-2 -right-2
-                  bg-[#D4AF37] text-black text-xs
-                  w-5 h-5 flex items-center justify-center
-                  rounded-full font-medium
-                ">
+                <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-black text-xs w-5 h-5 flex items-center justify-center rounded-full font-medium">
                   {totalItems}
                 </span>
               )}
@@ -193,12 +224,16 @@ export default function Navbar() {
 
               <span
                 ref={line1Ref}
-                className="absolute w-8 h-[2px] bg-[#EAD8B1]"
+                className={`absolute w-8 h-[2px] ${
+                  isLightText ? "bg-[#EAD8B1]" : "bg-[#2B1B14]"
+                }`}
               />
 
               <span
                 ref={line2Ref}
-                className="absolute w-8 h-[2px] bg-[#EAD8B1]"
+                className={`absolute w-8 h-[2px] ${
+                  isLightText ? "bg-[#EAD8B1]" : "bg-[#2B1B14]"
+                }`}
               />
 
             </button>
@@ -208,23 +243,18 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* 💎 MOBILE MENU */}
+      {/* MOBILE MENU */}
       <div
         ref={menuRef}
-        className="
-          fixed top-0 left-0 w-full h-screen
-          flex flex-col justify-center items-center gap-10
-          text-2xl font-serif z-40
-          bg-[#1A120B] text-[#EAD8B1]
-        "
+        className="fixed top-0 left-0 w-full h-screen flex flex-col justify-center items-center gap-10 text-2xl font-serif z-40 bg-[#1A120B] text-[#EAD8B1]"
       >
 
         <div className="absolute top-10">
           <Image
             src="/logo.png"
             alt="Bhairvee"
-            width={100}
-            height={50}
+            width={110}
+            height={60}
             className="opacity-90 sepia hue-rotate-[320deg] saturate-150"
           />
         </div>
@@ -234,7 +264,7 @@ export default function Navbar() {
             key={item}
             href={`/${item.toLowerCase().replace(" ", "-")}`}
             onClick={() => setOpen(false)}
-            className="hover:text-[#D4AF37]"
+            className="hover:text-[#D4AF37] transition"
           >
             {item}
           </Link>
@@ -244,7 +274,7 @@ export default function Navbar() {
           Cart ({totalItems})
         </Link>
 
-      </div>
+      </div> 
     </>
   );
 }

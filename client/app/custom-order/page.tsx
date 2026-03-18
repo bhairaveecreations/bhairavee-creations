@@ -17,6 +17,7 @@ export default function CustomOrderPage() {
     dimensions: "",
     colorPreference: "",
     budget: "",
+    phone:"",
     message: "",
   });
 
@@ -144,6 +145,19 @@ export default function CustomOrderPage() {
                 className="w-full mt-2 bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none"
                 onChange={(e) =>
                   setForm({ ...form, colorPreference: e.target.value })
+                }
+              />
+            </div>
+                        <div>
+              <label className="text-sm font-medium text-gray-700">
+                📞 Phone No
+              </label>
+
+              <input
+                placeholder="Emerald Green with Gold flakes"
+                className="w-full mt-2 bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none"
+                onChange={(e) =>
+                  setForm({ ...form, phone: e.target.value })
                 }
               />
             </div>

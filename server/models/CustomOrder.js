@@ -10,8 +10,14 @@ const customOrderSchema = new mongoose.Schema(
     dimensions: String,
     colorPreference: String,
     budget: String,
-    referenceImage: String,
     message: String,
+
+    // ✅ NEW
+    phone: {
+      type: String,
+      required: true,
+    },
+
     status: {
       type: String,
       enum: ["pending", "contacted", "completed"],

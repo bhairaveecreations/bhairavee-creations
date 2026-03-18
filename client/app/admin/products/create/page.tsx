@@ -20,8 +20,7 @@ export default function CreateProductPage() {
 
   const [images, setImages] = useState<FileList | null>(null);
 
-  const handleSubmit = async (e:any) => {
-
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const data = new FormData();
@@ -37,107 +36,176 @@ export default function CreateProductPage() {
     }
 
     try {
-
       await api.post("/products", data);
-
       alert("Product created successfully");
-
       router.push("/admin/products");
-
-    } catch (error:any) {
-
+    } catch (error: any) {
       alert(error.response?.data?.message || "Error");
-
     }
-
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-10">
 
-      <h1 className="text-2xl font-bold mb-6">
-        Create Product
-      </h1>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {/* 🔥 HEADER */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-serif text-[#2B1B14]">
+          Create Product
+        </h1>
+        <p className="text-[#7a6a58] text-sm mt-1">
+          Add a new handcrafted product to your collection
+        </p>
+      </div>
 
-        <input
+      {/* 💎 FORM CARD */}
+      <form
+        onSubmit={handleSubmit}
+        className="
+          space-y-5
+          p-6 rounded-2xl
+          bg-white/40 backdrop-blur-xl
+          border border-white/30
+          shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+        "
+      >
+
+        {/* TITLE */}
+        <Input
           placeholder="Product Title"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, title:e.target.value})
+          onChange={(e) =>
+            setForm({ ...form, title: e.target.value })
           }
         />
 
-        <textarea
+        {/* DESCRIPTION */}
+        <Textarea
           placeholder="Description"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, description:e.target.value})
+          onChange={(e) =>
+            setForm({ ...form, description: e.target.value })
           }
         />
 
-        <input
-          placeholder="Category"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, category:e.target.value})
-          }
-        />
+        {/* GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        <input
-          placeholder="Sub Category"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, subCategory:e.target.value})
-          }
-        />
-
-        <input
-          type="number"
-          placeholder="Price"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, price:e.target.value})
-          }
-        />
-
-        <input
-          type="number"
-          placeholder="Stock"
-          className="w-full border p-3"
-          onChange={(e)=>
-            setForm({...form, stock:parseInt(e.target.value)})
-          }
-        />
-
-        <label className="flex items-center gap-2">
-
-          <input
-            type="checkbox"
-            onChange={(e)=>
-              setForm({...form, customizable:e.target.checked})
+          <Input
+            placeholder="Category"
+            onChange={(e) =>
+              setForm({ ...form, category: e.target.value })
             }
           />
 
-          Customizable Product
+          <Input
+            placeholder="Sub Category"
+            onChange={(e) =>
+              setForm({ ...form, subCategory: e.target.value })
+            }
+          />
 
+          <Input
+            type="number"
+            placeholder="Price (₹)"
+            onChange={(e) =>
+              setForm({ ...form, price: e.target.value })
+            }
+          />
+
+          <Input
+            type="number"
+            placeholder="Stock"
+            onChange={(e) =>
+              setForm({ ...form, stock: parseInt(e.target.value) })
+            }
+          />
+
+        </div>
+
+        {/* CUSTOMIZABLE */}
+        <label className="
+          flex items-center gap-3
+          p-3 rounded-xl
+          bg-white/30 backdrop-blur border border-white/30
+        ">
+          <input
+            type="checkbox"
+            className="accent-[#D4AF37]"
+            onChange={(e) =>
+              setForm({ ...form, customizable: e.target.checked })
+            }
+          />
+          <span className="text-sm text-[#2B1B14]">
+            Customizable Product
+          </span>
         </label>
 
-        <input
-          type="file"
-          multiple
-          onChange={(e)=>setImages(e.target.files)}
-        />
+        {/* IMAGE UPLOAD */}
+        <div className="
+          p-4 rounded-xl
+          border border-dashed border-[#d4af37]/40
+          bg-white/30 backdrop-blur
+        ">
+          <p className="text-sm text-[#7a6a58] mb-2">
+            Upload Product Images
+          </p>
 
-        <button className="bg-black text-white px-6 py-3">
+          <input
+            type="file"
+            multiple
+            className="text-sm"
+            onChange={(e) => setImages(e.target.files)}
+          />
+        </div>
 
-          Create Product
-
+        {/* SUBMIT BUTTON */}
+        <button
+          className="
+            w-full py-3 rounded-xl
+            bg-gradient-to-r from-[#d4af37] to-[#b8962e]
+            text-white font-medium
+            hover:opacity-90 active:scale-[0.98]
+            transition
+            shadow-[0_10px_30px_rgba(212,175,55,0.3)]
+          "
+        >
+          Create Product ✨
         </button>
 
       </form>
 
     </div>
+  );
+}
+
+/* 💎 REUSABLE INPUT */
+function Input({ ...props }: any) {
+  return (
+    <input
+      {...props}
+      className="
+        w-full px-4 py-3 rounded-xl text-sm
+        bg-white/40 backdrop-blur
+        border border-white/30
+        focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50
+        placeholder:text-[#7a6a58]
+      "
+    />
+  );
+}
+
+/* 💎 REUSABLE TEXTAREA */
+function Textarea({ ...props }: any) {
+  return (
+    <textarea
+      {...props}
+      rows={4}
+      className="
+        w-full px-4 py-3 rounded-xl text-sm
+        bg-white/40 backdrop-blur
+        border border-white/30
+        focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50
+        placeholder:text-[#7a6a58]
+      "
+    />
   );
 }

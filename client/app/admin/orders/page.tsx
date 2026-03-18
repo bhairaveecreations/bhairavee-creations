@@ -88,7 +88,9 @@ export default function AdminOrdersPage() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 pb-24 space-y-6">
+
+    /* 🔥 FIX: TOP SPACING ADDED */
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 pt-[90px] pb-24 space-y-6">
 
       {/* HEADER */}
       <div className="flex items-center justify-between">
@@ -101,35 +103,46 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* FILTERS */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      {/* 🔥 PREMIUM FILTERS (NO SCROLLBAR) */}
+<div className="relative">
 
-        {[
-          "all",
-          "processing",
-          "ready-for-shipping",
-          "delivered",
-          "cancelled"
-        ].map((status) => (
+  <div className="
+    flex gap-2 overflow-x-auto no-scrollbar
+    pb-2 scroll-smooth
+  ">
 
-          <button
-            key={status}
-            onClick={() => setFilter(status)}
-            className={`
-              px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition
-              backdrop-blur border
-              ${
-                filter === status
-                  ? "bg-[#2B1B14] text-white"
-                  : "bg-white/40 text-[#6b5c4c] border-white/30 hover:bg-white/60"
-              }
-            `}
-          >
-            {status.replaceAll("-", " ")}
-          </button>
+    {[
+      "all",
+      "processing",
+      "ready-for-shipping",
+      "delivered",
+      "cancelled"
+    ].map((status) => (
 
-        ))}
+      <button
+        key={status}
+        onClick={() => setFilter(status)}
+        className={`
+          px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition
+          backdrop-blur border shrink-0
+          ${
+            filter === status
+              ? "bg-[#2B1B14] text-white shadow-md"
+              : "bg-white/40 text-[#6b5c4c] border-white/30 hover:bg-white/60"
+          }
+        `}
+      >
+        {status.replaceAll("-", " ")}
+      </button>
 
-      </div>
+    ))}
+
+  </div>
+
+  {/* ✨ RIGHT FADE (PREMIUM TOUCH) */}
+  <div className="pointer-events-none absolute right-0 top-0 h-full w-10 " />
+
+</div>
 
       {/* ORDERS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -142,7 +155,6 @@ export default function AdminOrdersPage() {
 
         {filteredOrders.map((order) => {
 
-          /* 🔥 NORMALIZATION FIX */
           const status = order.orderStatus?.toLowerCase();
           const payment = order.paymentStatus
             ?.toLowerCase()
@@ -203,7 +215,6 @@ export default function AdminOrdersPage() {
                   <option value="cancelled">Cancelled</option>
                 </select>
 
-                {/* 🔥 FIXED CONDITION */}
                 {status === "ready-for-shipping" &&
                  payment === "advance-paid" && (
 

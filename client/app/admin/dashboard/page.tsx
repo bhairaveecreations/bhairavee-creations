@@ -26,7 +26,7 @@ export default function AdminDashboard() {
   const latestCustomOrders = stats.latestCustomOrders || [];
 
   return (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6 w-full pt-20">
 
       {/* HEADER */}
       <div>
