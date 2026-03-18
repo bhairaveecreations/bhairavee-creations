@@ -14,6 +14,7 @@ export default function AdminOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
+  /* FETCH ORDERS */
   const fetchOrders = async () => {
     try {
       const res = await api.get("/orders");
@@ -27,6 +28,7 @@ export default function AdminOrdersPage() {
     }
   };
 
+  /* INIT */
   useEffect(() => {
     const load = async () => {
 
@@ -43,6 +45,7 @@ export default function AdminOrdersPage() {
     load();
   }, []);
 
+  /* UPDATE STATUS */
   const updateStatus = async (id: string, status: string) => {
     try {
       const res = await api.put(`/orders/${id}`, { status });
@@ -56,6 +59,7 @@ export default function AdminOrdersPage() {
     }
   };
 
+  /* REQUEST PAYMENT */
   const requestRemainingPayment = async (id: string) => {
     try {
       await api.post(`/orders/request-payment/${id}`);
@@ -65,11 +69,16 @@ export default function AdminOrdersPage() {
     }
   };
 
+  /* FILTER */
   const filteredOrders =
     filter === "all"
       ? orders
-      : orders.filter((o) => o.orderStatus === filter);
+      : orders.filter(
+          (o) =>
+            o.orderStatus?.toLowerCase() === filter.toLowerCase()
+        );
 
+  /* LOADING */
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh] text-[#7a6a58]">
@@ -79,7 +88,6 @@ export default function AdminOrdersPage() {
   }
 
   return (
-
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 pb-24 space-y-6">
 
       {/* HEADER */}
@@ -92,7 +100,7 @@ export default function AdminOrdersPage() {
         </span>
       </div>
 
-      {/* FILTERS (GLASS + SCROLL) */}
+      {/* FILTERS */}
       <div className="flex gap-2 overflow-x-auto pb-1">
 
         {[
@@ -111,7 +119,7 @@ export default function AdminOrdersPage() {
               backdrop-blur border
               ${
                 filter === status
-                  ? "bg-[#2B1B14] text-white border-transparent"
+                  ? "bg-[#2B1B14] text-white"
                   : "bg-white/40 text-[#6b5c4c] border-white/30 hover:bg-white/60"
               }
             `}
@@ -123,8 +131,8 @@ export default function AdminOrdersPage() {
 
       </div>
 
-      {/* ORDERS GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-5">
+      {/* ORDERS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
         {filteredOrders.length === 0 && (
           <div className="col-span-full text-center text-[#8a7a65] py-10">
@@ -132,105 +140,114 @@ export default function AdminOrdersPage() {
           </div>
         )}
 
-        {filteredOrders.map((order) => (
+        {filteredOrders.map((order) => {
 
-          <div
-            key={order._id}
-            className="
-              p-5 rounded-2xl
-              bg-white/30 backdrop-blur-xl
-              border border-white/20
-              shadow-[0_8px_30px_rgba(0,0,0,0.08)]
-              hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]
-              transition hover:-translate-y-1
-            "
-          >
+          /* 🔥 NORMALIZATION FIX */
+          const status = order.orderStatus?.toLowerCase();
+          const payment = order.paymentStatus
+            ?.toLowerCase()
+            .replace(/[\s_]/g, "-");
 
-            {/* TOP */}
-            <div className="flex justify-between items-center mb-3">
+          return (
 
-              <p className="text-xs text-[#7a6a58] truncate max-w-[70%]">
-                {order._id}
-              </p>
+            <div
+              key={order._id}
+              className="
+                p-5 rounded-2xl
+                bg-white/30 backdrop-blur-xl
+                border border-white/20
+                shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+                hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]
+                transition hover:-translate-y-1
+              "
+            >
 
-              <StatusBadge status={order.orderStatus} />
+              {/* TOP */}
+              <div className="flex justify-between items-center mb-3">
 
-            </div>
+                <p className="text-xs text-[#7a6a58] truncate max-w-[70%]">
+                  {order._id}
+                </p>
 
-            {/* INFO */}
-            <div className="grid grid-cols-2 gap-3 text-sm mb-4">
+                <StatusBadge status={status} />
 
-              <Info label="Total" value={`₹${order.totalAmount}`} bold />
-              <Info label="Payment" value={order.paymentStatus} />
-              <Info label="Advance" value={`₹${order.advanceAmount}`} />
-              <Info label="Remaining" value={`₹${order.remainingAmount}`} />
+              </div>
 
-            </div>
+              {/* INFO */}
+              <div className="grid grid-cols-2 gap-3 text-sm mb-4">
 
-            {/* ACTIONS */}
-            <div className="flex flex-col gap-3">
+                <Info label="Total" value={`₹${order.totalAmount}`} bold />
+                <Info label="Payment" value={order.paymentStatus} />
+                <Info label="Advance" value={`₹${order.advanceAmount}`} />
+                <Info label="Remaining" value={`₹${order.remainingAmount}`} />
 
-              <select
-                value={order.orderStatus}
-                onChange={(e) =>
-                  updateStatus(order._id, e.target.value)
-                }
-                className="
-                  w-full px-3 py-2 text-sm rounded-xl
-                  bg-white/50 backdrop-blur border border-white/30
-                  focus:outline-none
-                "
-              >
-                <option value="processing">Processing</option>
-                <option value="ready-for-shipping">Ready For Shipping</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
+              </div>
 
-              {order.orderStatus === "ready-for-shipping" &&
-               order.paymentStatus === "advance-paid" && (
+              {/* ACTIONS */}
+              <div className="flex flex-col gap-3">
 
-                <button
-                  onClick={() =>
-                    requestRemainingPayment(order._id)
+                <select
+                  value={status}
+                  onChange={(e) =>
+                    updateStatus(order._id, e.target.value)
                   }
                   className="
-                    w-full py-2 rounded-xl text-sm font-medium text-white
-                    bg-gradient-to-r from-[#d4af37] to-[#b8962e]
-                    hover:opacity-90 active:scale-[0.98] transition
+                    w-full px-3 py-2 text-sm rounded-xl
+                    bg-white/50 backdrop-blur border border-white/30
+                    focus:outline-none
                   "
                 >
-                  Request Remaining Payment
-                </button>
+                  <option value="processing">Processing</option>
+                  <option value="ready-for-shipping">Ready For Shipping</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
 
-              )}
+                {/* 🔥 FIXED CONDITION */}
+                {status === "ready-for-shipping" &&
+                 payment === "advance-paid" && (
+
+                  <button
+                    onClick={() =>
+                      requestRemainingPayment(order._id)
+                    }
+                    className="
+                      w-full py-2 rounded-xl text-sm font-medium text-white
+                      bg-gradient-to-r from-[#d4af37] to-[#b8962e]
+                      hover:opacity-90 active:scale-[0.98] transition
+                    "
+                  >
+                    Request Remaining Payment
+                  </button>
+
+                )}
+
+              </div>
 
             </div>
 
-          </div>
-
-        ))}
+          );
+        })}
 
       </div>
 
     </div>
-
   );
 }
 
-/* 🔥 INFO BLOCK */
+/* INFO */
 function Info({ label, value, bold }: any) {
   return (
     <div>
       <p className="text-xs text-[#7a6a58]">{label}</p>
-      <p className={`${bold ? "font-semibold text-base" : ""} text-[#2B1B14] capitalize`}>
+      <p className={`${bold ? "font-semibold text-base" : ""} text-[#2B1B14]`}>
         {value}
       </p>
     </div>
   );
 }
 
-/* 🔥 STATUS BADGE */
+/* STATUS BADGE */
 function StatusBadge({ status }: any) {
 
   const map: any = {
@@ -243,7 +260,7 @@ function StatusBadge({ status }: any) {
   return (
     <span
       className={`px-2 py-1 rounded-full text-xs font-medium ${
-        map[status?.toLowerCase()] || "bg-gray-100 text-gray-600"
+        map[status] || "bg-gray-100 text-gray-600"
       }`}
     >
       {status}
