@@ -20,7 +20,12 @@ export default function CreateProductPage() {
 
   const [images, setImages] = useState<FileList | null>(null);
 
-  /* ✅ FIXED TYPE */
+  // 🔥 NEW STATES
+  const [tags, setTags] = useState("");
+  const [variants, setVariants] = useState([
+    { name: "", price: "" }
+  ]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -29,6 +34,10 @@ export default function CreateProductPage() {
     Object.entries(form).forEach(([key, value]) => {
       data.append(key, value as any);
     });
+
+    // 🔥 ADD TAGS + VARIANTS
+    data.append("tags", JSON.stringify(tags.split(",").map(t => t.trim())));
+    data.append("variants", JSON.stringify(variants));
 
     if (images) {
       for (let i = 0; i < images.length; i++) {
@@ -74,7 +83,7 @@ export default function CreateProductPage() {
         {/* TITLE */}
         <Input
           placeholder="Product Title"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange={(e) =>
             setForm({ ...form, title: e.target.value })
           }
         />
@@ -82,7 +91,7 @@ export default function CreateProductPage() {
         {/* DESCRIPTION */}
         <Textarea
           placeholder="Description"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange={(e) =>
             setForm({ ...form, description: e.target.value })
           }
         />
@@ -92,22 +101,22 @@ export default function CreateProductPage() {
 
           <Input
             placeholder="Category"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setForm({ ...form, category: e.target.value })
             }
           />
 
           <Input
             placeholder="Sub Category"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setForm({ ...form, subCategory: e.target.value })
             }
           />
 
           <Input
             type="number"
-            placeholder="Price (₹)"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            placeholder="Base Price (₹)"
+            onChange={(e) =>
               setForm({ ...form, price: e.target.value })
             }
           />
@@ -115,13 +124,65 @@ export default function CreateProductPage() {
           <Input
             type="number"
             placeholder="Stock"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setForm({
                 ...form,
                 stock: parseInt(e.target.value) || 0
               })
             }
           />
+
+        </div>
+
+        {/* 🔥 TAGS */}
+        <Input
+          placeholder="Tags (comma separated e.g. pooja,resin,decor)"
+          onChange={(e) => setTags(e.target.value)}
+        />
+
+        {/* 🔥 VARIANTS */}
+        <div className="space-y-3">
+
+          <p className="text-sm text-[#7a6a58]">
+            Product Variants
+          </p>
+
+          {variants.map((v, i) => (
+            <div key={i} className="flex gap-2">
+
+              <Input
+                placeholder="Variant (e.g. Small)"
+                value={v.name}
+                onChange={(e) => {
+                  const updated = [...variants];
+                  updated[i].name = e.target.value;
+                  setVariants(updated);
+                }}
+              />
+
+              <Input
+                type="number"
+                placeholder="Price"
+                value={v.price}
+                onChange={(e) => {
+                  const updated = [...variants];
+                  updated[i].price = e.target.value;
+                  setVariants(updated);
+                }}
+              />
+
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={() =>
+              setVariants([...variants, { name: "", price: "" }])
+            }
+            className="text-sm text-[#C8A24A]"
+          >
+            + Add Variant
+          </button>
 
         </div>
 
@@ -134,7 +195,7 @@ export default function CreateProductPage() {
           <input
             type="checkbox"
             className="accent-[#D4AF37]"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setForm({ ...form, customizable: e.target.checked })
             }
           />
@@ -157,7 +218,7 @@ export default function CreateProductPage() {
             type="file"
             multiple
             className="text-sm"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e) =>
               setImages(e.target.files)
             }
           />
