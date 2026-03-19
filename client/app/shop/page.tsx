@@ -67,7 +67,7 @@ export default function ShopPage() {
 
   return (
 
-    <main className="bg-[#F8F6F2] min-h-screen">
+    <main className="bg-[#F8F6F2] min-h-screen pt-15">
 
       {/* HERO */}
       <section className="text-center py-16 px-5">

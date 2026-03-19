@@ -42,7 +42,7 @@ export default function ProductCard({ product }: any) {
 
   return (
 
-    <article className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+    <article className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col pb-3 h-full">
 
       {/* IMAGE */}
 
