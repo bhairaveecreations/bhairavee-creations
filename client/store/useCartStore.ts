@@ -1,74 +1,89 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
-interface CartItem {
+// ✅ UPDATED TYPE (FIXES YOUR ERROR)
+type CartItem = {
   productId: string;
   title: string;
   price: number;
   image: string;
   quantity: number;
-}
+  variant?: string; // 🔥 NEW (IMPORTANT)
+};
 
-interface CartState {
+type CartState = {
   items: CartItem[];
+
   addToCart: (item: CartItem) => void;
-  removeFromCart: (productId: string) => void;
+  removeFromCart: (productId: string, variant?: string) => void;
+  increaseQty: (productId: string, variant?: string) => void;
+  decreaseQty: (productId: string, variant?: string) => void;
   clearCart: () => void;
-  increaseQty: (productId: string) => void;
-  decreaseQty: (productId: string) => void;
-}
+};
 
-export const useCartStore = create<CartState>()(
-  persist(
-    (set) => ({
-      items: [],
+export const useCartStore = create<CartState>((set) => ({
 
-      addToCart: (item) =>
-        set((state) => {
-          const existing = state.items.find(
-            (i) => i.productId === item.productId
-          );
+  items: [],
 
-          if (existing) {
-            return {
-              items: state.items.map((i) =>
-                i.productId === item.productId
-                  ? { ...i, quantity: i.quantity + 1 }
-                  : i
-              ),
-            };
-          }
+  // 🛒 ADD TO CART (VARIANT SAFE)
+  addToCart: (item) =>
+    set((state) => {
 
-          return { items: [...state.items, item] };
-        }),
+      const existingItem = state.items.find(
+        (i) =>
+          i.productId === item.productId &&
+          i.variant === item.variant // 🔥 key fix
+      );
 
-      removeFromCart: (productId) =>
-        set((state) => ({
-          items: state.items.filter(
-            (i) => i.productId !== productId
-          ),
-        })),
-
-      increaseQty: (productId) =>
-        set((state) => ({
+      // if same product + same variant → increase qty
+      if (existingItem) {
+        return {
           items: state.items.map((i) =>
-            i.productId === productId
+            i.productId === item.productId &&
+            i.variant === item.variant
               ? { ...i, quantity: i.quantity + 1 }
               : i
           ),
-        })),
+        };
+      }
 
-      decreaseQty: (productId) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.productId === productId && i.quantity > 1
-              ? { ...i, quantity: i.quantity - 1 }
-              : i
-          ),
-        })),
-
-      clearCart: () => set({ items: [] }),
+      // new item
+      return {
+        items: [...state.items, item],
+      };
     }),
-    { name: "cart-storage" }
-  )
-);
+
+  // ❌ REMOVE ITEM
+  removeFromCart: (productId, variant) =>
+    set((state) => ({
+      items: state.items.filter(
+        (i) =>
+          !(i.productId === productId && i.variant === variant)
+      ),
+    })),
+
+  // ➕ INCREASE QUANTITY
+  increaseQty: (productId, variant) =>
+    set((state) => ({
+      items: state.items.map((i) =>
+        i.productId === productId && i.variant === variant
+          ? { ...i, quantity: i.quantity + 1 }
+          : i
+      ),
+    })),
+
+  // ➖ DECREASE QUANTITY
+  decreaseQty: (productId, variant) =>
+    set((state) => ({
+      items: state.items
+        .map((i) =>
+          i.productId === productId && i.variant === variant
+            ? { ...i, quantity: i.quantity - 1 }
+            : i
+        )
+        .filter((i) => i.quantity > 0),
+    })),
+
+  // 🧹 CLEAR CART
+  clearCart: () => set({ items: [] }),
+
+}));
