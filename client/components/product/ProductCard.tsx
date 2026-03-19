@@ -106,13 +106,7 @@ export default function ProductCard({ product }: any) {
 
         {/* Desktop Feature */}
 
-        <div className="hidden md:flex items-center justify-center gap-2 text-sm text-green-700 mt-2">
-
-          <Sparkles size={14} />
-
-          <span>Free Shipping Included</span>
-
-        </div>
+        
 
 
         {/* Desktop Benefit */}
