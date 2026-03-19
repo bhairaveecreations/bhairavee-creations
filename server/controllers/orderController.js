@@ -62,14 +62,41 @@ exports.createOrder = async (req, res) => {
     try {
       await sendEmail(
         process.env.ADMIN_EMAIL,
-        "New Order Received",
-        `
-        <h2>New Order Received</h2>
-        <p><b>Customer:</b> ${user.name}</p>
-        <p><b>Email:</b> ${user.email}</p>
-        <p><b>Total:</b> ₹${calculatedTotal}</p>
-        <p><b>Order ID:</b> ${order._id}</p>
-        `
+        "🛍️ New Order Received - Bhairavee Creattions",
+`
+<div style="font-family: 'Segoe UI', sans-serif; background: #1A120B; color: #f5e6c8; padding: 20px; border-radius: 12px;">
+  
+  <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">
+    ✨ New Order Alert ✨
+  </h2>
+
+  <p style="text-align: center; font-size: 14px; color: #cbb27a;">
+    A new order has been placed on your store
+  </p>
+
+  <div style="background: #2a1d14; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px solid rgba(212,175,55,0.2);">
+    
+    <p style="margin: 8px 0;">👤 <b>Customer:</b> ${user.name}</p>
+    <p style="margin: 8px 0;">📧 <b>Email:</b> ${user.email}</p>
+    <p style="margin: 8px 0;">🆔 <b>Order ID:</b> ${order._id}</p>
+    
+    <hr style="border: none; border-top: 1px solid rgba(212,175,55,0.2); margin: 15px 0;" />
+    
+    <p style="font-size: 18px; margin: 10px 0;">
+      💰 <b>Total Amount:</b> 
+      <span style="color: #d4af37; font-weight: bold;">₹${calculatedTotal}</span>
+    </p>
+
+  </div>
+
+  <div style="text-align: center; margin-top: 25px;">
+    <p style="font-size: 13px; color: #a88c4a;">
+      🕉️ Bhairavee Creattions Admin Panel
+    </p>
+  </div>
+
+</div>
+`
       );
     } catch (e) {
       console.error("Admin email failed:", e);
@@ -79,13 +106,52 @@ exports.createOrder = async (req, res) => {
     try {
       await sendEmail(
         user.email,
-        "Order Confirmation - Bhairvee Creations",
-        `
-        <h2>Your Order is Confirmed 🎉</h2>
-        <p>Hello ${user.name}</p>
-        <p><b>Order ID:</b> ${order._id}</p>
-        <p><b>Total:</b> ₹${calculatedTotal}</p>
-        `
+        "✨ Order Confirmed - Bhairavee Creattions",
+`
+<div style="font-family: 'Segoe UI', sans-serif; background: #1A120B; color: #f5e6c8; padding: 25px; border-radius: 12px;">
+  
+  <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">
+    🎉 Your Order is Confirmed!
+  </h2>
+
+  <p style="text-align: center; font-size: 14px; color: #cbb27a;">
+    Thank you for choosing Bhairavee Creattions 💖
+  </p>
+
+  <div style="background: #2a1d14; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px solid rgba(212,175,55,0.2);">
+    
+    <p style="margin: 8px 0;">🙏 Hello <b>${user.name}</b>,</p>
+    
+    <p style="margin: 8px 0;">🧾 <b>Order ID:</b> ${order._id}</p>
+
+    <hr style="border: none; border-top: 1px solid rgba(212,175,55,0.2); margin: 15px 0;" />
+
+    <p style="font-size: 18px; margin: 10px 0;">
+      💰 <b>Total Paid:</b> 
+      <span style="color: #d4af37; font-weight: bold;">₹${calculatedTotal}</span>
+    </p>
+
+    <p style="margin-top: 15px; font-size: 14px; color: #cbb27a;">
+      ✨ Your handcrafted product is now being prepared with care and love.
+    </p>
+
+  </div>
+
+  <div style="text-align: center; margin-top: 25px;">
+    
+    <p style="font-size: 14px; margin-bottom: 10px;">
+      📦 We’ll notify you once your order is shipped.
+    </p>
+
+    <p style="font-size: 13px; color: #a88c4a;">
+      With love,<br/>
+      🕉️ <b>Bhairavee Creattions</b>
+    </p>
+
+  </div>
+
+</div>
+`
       );
     } catch (e) {
       console.error("Customer email failed:", e);

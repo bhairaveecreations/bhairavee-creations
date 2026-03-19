@@ -85,16 +85,18 @@ export default function Navbar() {
   return (
     <>
       {/* NAVBAR */}
-      <header
-        className={`
-          fixed top-0 left-0 w-full z-50 py-3 transition-all duration-300
-          ${
-            scrolled
-              ? "bg-[#1A120B]/95 backdrop-blur-xl border-b border-[#d4af37]/20 shadow-[0_8px_30px_rgba(212,175,55,0.15)]"
-              : "bg-transparent"
-          }
-        `}
-      >
+     <header
+  className={`
+    fixed top-0 left-0 w-full z-50 py-3 transition-all duration-300
+    ${
+      open
+        ? "bg-transparent backdrop-blur-none border-none shadow-none"
+        : scrolled
+        ? "bg-[#1A120B]/95 backdrop-blur-xl border-b border-[#d4af37]/20 shadow-[0_8px_30px_rgba(212,175,55,0.15)]"
+        : "bg-transparent"
+    }
+  `}
+>
 
         <div
           ref={navRef}
@@ -259,14 +261,14 @@ export default function Navbar() {
           />
         </div>
 
-        {["Home", "Shop", "Custom Order", "Profile"].map((item) => (
+        {["", "Shop", "Custom Order", "Profile"].map((item) => (
           <Link
             key={item}
             href={`/${item.toLowerCase().replace(" ", "-")}`}
             onClick={() => setOpen(false)}
             className="hover:text-[#D4AF37] transition"
           >
-            {item}
+            {item==""?"Home":item}
           </Link>
         ))}
 

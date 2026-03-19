@@ -15,7 +15,7 @@ export default function Footer() {
           <div>
 
             <h3 className="text-2xl font-serif mb-4">
-              Bhairvee Creations
+             Bhairavee Creattions
             </h3>
 
             <p className="text-gray-300">
@@ -117,7 +117,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-600 pt-6 text-center text-gray-400">
 
-          © {new Date().getFullYear()} Bhairvee Creations. All rights reserved.
+          © {new Date().getFullYear()}Bhairavee Creattions. All rights reserved.
 
         </div>
 
