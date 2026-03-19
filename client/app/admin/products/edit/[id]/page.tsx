@@ -4,12 +4,30 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import { useRouter, useParams } from "next/navigation";
 
+// ✅ TYPES
+type Variant = {
+  name: string;
+  price: string;
+};
+
+type FormType = {
+  title: string;
+  description: string;
+  category: string;
+  subCategory: string;
+  price: string;
+  customizable: boolean;
+  stock: number;
+};
+
 export default function EditProductPage() {
 
   const router = useRouter();
   const params = useParams();
 
-  const [form, setForm] = useState({
+  const id = params?.id as string;
+
+  const [form, setForm] = useState<FormType>({
     title: "",
     description: "",
     category: "",
@@ -19,39 +37,42 @@ export default function EditProductPage() {
     stock: 1
   });
 
-  const [tags, setTags] = useState("");
-  const [variants, setVariants] = useState([
+  const [tags, setTags] = useState<string>("");
+  const [variants, setVariants] = useState<Variant[]>([
     { name: "", price: "" }
   ]);
 
   const [images, setImages] = useState<FileList | null>(null);
 
-  // 🔥 FETCH PRODUCT DATA
+  // 🔥 FETCH PRODUCT
   useEffect(() => {
 
-    if (!params?.id) return;
+    if (!id) return;
 
     const fetchProduct = async () => {
       try {
 
-        const res = await api.get(`/products/id/${params.id}`);
+        const res = await api.get(`/products/id/${id}`);
         const p = res.data;
 
         setForm({
-          title: p.title,
-          description: p.description,
-          category: p.category,
-          subCategory: p.subCategory,
-          price: p.price,
-          customizable: p.customizable,
-          stock: p.stock
+          title: p.title || "",
+          description: p.description || "",
+          category: p.category || "",
+          subCategory: p.subCategory || "",
+          price: p.price?.toString() || "",
+          customizable: p.customizable || false,
+          stock: p.stock || 1
         });
 
         setTags(p.tags?.join(",") || "");
 
         setVariants(
           p.variants?.length
-            ? p.variants
+            ? p.variants.map((v: any) => ({
+                name: v.name,
+                price: v.price.toString()
+              }))
             : [{ name: "", price: "" }]
         );
 
@@ -62,11 +83,12 @@ export default function EditProductPage() {
 
     fetchProduct();
 
-  }, [params.id]);
+  }, [id]);
 
 
-  // 🔥 UPDATE PRODUCT
-  const handleSubmit = async (e: any) => {
+
+  // 🔥 SUBMIT
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = new FormData();
@@ -75,7 +97,11 @@ export default function EditProductPage() {
       data.append(key, value as any);
     });
 
-    data.append("tags", JSON.stringify(tags.split(",").map(t => t.trim())));
+    data.append(
+      "tags",
+      JSON.stringify(tags.split(",").map((t) => t.trim()))
+    );
+
     data.append("variants", JSON.stringify(variants));
 
     if (images) {
@@ -86,7 +112,7 @@ export default function EditProductPage() {
 
     try {
 
-      await api.put(`/products/${params.id}`, data);
+      await api.put(`/products/${id}`, data);
 
       alert("Product updated successfully");
       router.push("/admin/products");
@@ -95,6 +121,7 @@ export default function EditProductPage() {
       alert(error.response?.data?.message || "Error updating product");
     }
   };
+
 
   return (
 
@@ -126,7 +153,7 @@ export default function EditProductPage() {
         <Input
           value={form.title}
           placeholder="Product Title"
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setForm({ ...form, title: e.target.value })
           }
         />
@@ -135,7 +162,7 @@ export default function EditProductPage() {
         <Textarea
           value={form.description}
           placeholder="Description"
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setForm({ ...form, description: e.target.value })
           }
         />
@@ -146,7 +173,7 @@ export default function EditProductPage() {
           <Input
             value={form.category}
             placeholder="Category"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, category: e.target.value })
             }
           />
@@ -154,7 +181,7 @@ export default function EditProductPage() {
           <Input
             value={form.subCategory}
             placeholder="Sub Category"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, subCategory: e.target.value })
             }
           />
@@ -163,7 +190,7 @@ export default function EditProductPage() {
             type="number"
             value={form.price}
             placeholder="Base Price"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, price: e.target.value })
             }
           />
@@ -172,7 +199,7 @@ export default function EditProductPage() {
             type="number"
             value={form.stock}
             placeholder="Stock"
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({
                 ...form,
                 stock: parseInt(e.target.value) || 0
@@ -186,7 +213,9 @@ export default function EditProductPage() {
         <Input
           value={tags}
           placeholder="Tags (comma separated)"
-          onChange={(e) => setTags(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTags(e.target.value)
+          }
         />
 
         {/* VARIANTS */}
@@ -202,7 +231,7 @@ export default function EditProductPage() {
               <Input
                 value={v.name}
                 placeholder="Variant"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const updated = [...variants];
                   updated[i].name = e.target.value;
                   setVariants(updated);
@@ -213,7 +242,7 @@ export default function EditProductPage() {
                 type="number"
                 value={v.price}
                 placeholder="Price"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const updated = [...variants];
                   updated[i].price = e.target.value;
                   setVariants(updated);
@@ -240,18 +269,20 @@ export default function EditProductPage() {
           <input
             type="checkbox"
             checked={form.customizable}
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setForm({ ...form, customizable: e.target.checked })
             }
           />
           Customizable
         </label>
 
-        {/* IMAGE UPLOAD */}
+        {/* IMAGE */}
         <input
           type="file"
           multiple
-          onChange={(e) => setImages(e.target.files)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setImages(e.target.files)
+          }
         />
 
         {/* SUBMIT */}
@@ -267,7 +298,7 @@ export default function EditProductPage() {
 
 
 // INPUT
-function Input(props: any) {
+function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
@@ -277,7 +308,7 @@ function Input(props: any) {
 }
 
 // TEXTAREA
-function Textarea(props: any) {
+function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       {...props}
