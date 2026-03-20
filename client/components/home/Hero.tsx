@@ -85,7 +85,7 @@ export default function Hero() {
           href="/shop"
           className="inline-block bg-[#D4AF37] text-black px-8 py-3 rounded-md font-medium hover:opacity-90 transition"
         >
-          Shop Now
+          Shop Sacred Decor →
         </Link>
 
       </div>

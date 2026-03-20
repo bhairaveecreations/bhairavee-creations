@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Sparkles } from "lucide-react";
+import { Star } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useState } from "react";
 
 export default function ProductCard({ product }: any) {
-
   const addToCart = useCartStore((state) => state.addToCart);
 
   const [showToast, setShowToast] = useState(false);
@@ -21,7 +20,6 @@ export default function ProductCard({ product }: any) {
   ];
 
   const handleAddToCart = () => {
-
     addToCart({
       productId: product._id,
       title: product.title,
@@ -37,19 +35,14 @@ export default function ProductCard({ product }: any) {
     setShowToast(true);
 
     setTimeout(() => setShowToast(false), 3000);
-
   };
 
   return (
-
     <article className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col pb-3 h-full">
 
       {/* IMAGE */}
-
       <div className="p-2 md:p-4">
-
         <Link href={`/product/${product.slug}`}>
-
           <div className="relative w-full aspect-square md:aspect-[4/3] overflow-hidden rounded-xl bg-[#F8F6F2] shadow-inner">
 
             <Image
@@ -65,59 +58,41 @@ export default function ProductCard({ product }: any) {
             </span>
 
           </div>
-
         </Link>
-
       </div>
 
-
       {/* CONTENT */}
-
       <div className="px-3 md:px-6 text-center flex flex-col flex-grow">
 
         <Link href={`/product/${product.slug}`}>
-
           <h3 className="font-serif text-sm md:text-lg text-[#3B2A1F] hover:text-[#C8A24A] transition line-clamp-2 min-h-[40px] md:min-h-[48px]">
             {product.title}
           </h3>
-
         </Link>
 
-
         {/* Rating */}
-
         <div className="flex items-center justify-center gap-1 mt-1 md:mt-2 text-xs md:text-sm text-gray-600">
-
           <Star size={12} className="fill-[#C8A24A] text-[#C8A24A]" />
-
           <span>4.9</span>
-
           <span className="hidden md:inline text-gray-400">(128 reviews)</span>
-
         </div>
 
-
         {/* Price */}
-
         <p className="text-sm md:text-xl font-semibold mt-1 md:mt-3 text-[#2B1B14]">
           ₹{product.price}
         </p>
 
-
-        {/* Desktop Feature */}
-
-        
-
+        {/* Preparation Time (NEW - SUBTLE & PREMIUM) */}
+        <p className="text-[11px] md:text-xs text-gray-500 mt-1 italic">
+          Handcrafted with care • Ready in 10–15 days
+        </p>
 
         {/* Desktop Benefit */}
-
         <p className="hidden md:block text-gray-500 text-sm mt-2">
           Elevate your sacred corner instantly
         </p>
 
-
         {/* BUTTONS */}
-
         <div className="mt-auto pt-4 flex flex-col gap-2 md:gap-3">
 
           <button
@@ -136,36 +111,25 @@ export default function ProductCard({ product }: any) {
 
         </div>
 
-
         {/* Urgency */}
-
         <p className="hidden md:block text-red-500 text-xs mt-3">
           Only a few pieces available
         </p>
 
       </div>
 
-
       {/* TOAST */}
-
       {showToast && (
-
         <div className="fixed bottom-6 right-6 bg-white shadow-xl border rounded-xl px-6 py-4 z-[999]">
-
           <p className="text-sm font-semibold text-gray-800">
             🛒 Added to Cart
           </p>
-
           <p className="text-xs text-gray-600 mt-1">
             {quote}
           </p>
-
         </div>
-
       )}
 
     </article>
-
   );
-
 }
