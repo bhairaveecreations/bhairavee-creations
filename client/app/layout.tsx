@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/home/Footer";
+import Preloader from "@/components/ui/Preloader";
 
 export const metadata: Metadata = {
   title: {
@@ -69,9 +70,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#F9F7F4] text-[#2B1B14]">
-        <Navbar/>
-        {children}
-        <Footer/>
+
+        {/* 🔥 PRELOADER */}
+        <Preloader />
+
+        {/* MAIN STRUCTURE */}
+        <div className="flex flex-col min-h-screen">
+
+          {/* NAVBAR */}
+          <Navbar />
+
+          {/* PAGE CONTENT */}
+          <main className="flex-grow">
+            {children}
+          </main>
+
+          {/* FOOTER */}
+          <Footer />
+
+        </div>
+
       </body>
     </html>
   );
