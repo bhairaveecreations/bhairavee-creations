@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/home/Footer";
 import Preloader from "@/components/ui/Preloader";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
@@ -70,6 +71,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#F9F7F4] text-[#2B1B14]">
+        <Script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    strategy="beforeInteractive"
+  />
+
 
         {/* 🔥 PRELOADER */}
         <Preloader />
