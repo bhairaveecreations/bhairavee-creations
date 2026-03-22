@@ -21,92 +21,130 @@ export default function ShippingPolicyPage() {
         className="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-md"
       >
         <h1 className="text-3xl md:text-4xl font-serif mb-6 text-[#2B1B14]">
-          Shipping Policy
+          Shipping & Refund Policy
         </h1>
 
-        <p className="text-gray-600 mb-6 text-sm">
+        <p className="text-gray-600 mb-8 text-sm">
           Last updated: {new Date().toLocaleDateString()}
         </p>
 
-        <div className="space-y-6 text-gray-700 text-sm leading-relaxed">
+        <div className="space-y-10 text-gray-700 text-sm leading-relaxed">
 
-          <p>
-            At <strong>Bhairavee Creattions</strong>, we are committed to delivering
-            your handcrafted products safely and on time.
-          </p>
-
+          {/* SHIPPING POLICY */}
           <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              1. Shipping Charges
+            <h2 className="text-xl font-semibold text-[#2B1B14] mb-4">
+              Shipping Policy
             </h2>
-            <p>
-              We offer <strong>free shipping</strong> on all orders across India.
-              There are no additional delivery charges.
+
+            <p className="mb-4">
+              At <strong>Bhairavee Creattions</strong>, every product is
+              handcrafted with care, precision, and attention to detail.
             </p>
+
+            <div className="space-y-4">
+
+              <div>
+                <h3 className="font-semibold">1. Preparation Time</h3>
+                <p>
+                  Each product is custom-made and requires approximately{" "}
+                  <strong>20 days</strong> for preparation. The timeline may vary
+                  depending on the size and complexity of the design.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">2. Shipping Time</h3>
+                <p>
+                  Once your order is ready, it will be shipped across India and
+                  typically delivered within{" "}
+                  <strong>5–7 working days</strong>.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">3. Delivery Coverage</h3>
+                <p>
+                  We offer <strong>pan-India delivery</strong> to all serviceable
+                  locations.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">4. Shipping Charges</h3>
+                <p>
+                  We offer <strong>free shipping</strong> on all orders across
+                  India.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">5. Order Tracking</h3>
+                <p>
+                  Once your order is shipped, tracking details will be shared via
+                  WhatsApp or email.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">6. Note</h3>
+                <p>
+                  Since all items are handcrafted, slight variations are natural
+                  and add to the uniqueness of each piece.
+                </p>
+              </div>
+
+            </div>
           </div>
 
+          {/* REFUND POLICY */}
           <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              2. Order Processing Time
+            <h2 className="text-xl font-semibold text-[#2B1B14] mb-4">
+              Refund & Return Policy
             </h2>
-            <p>
-              Orders are processed within 2–4 business days. Since our products
-              are handcrafted, custom orders may take additional time depending
-              on the design and requirements.
-            </p>
+
+            <div className="space-y-4">
+
+              <div>
+                <h3 className="font-semibold">1. No Refunds / No Returns</h3>
+                <p>
+                  All products are <strong>customised and handmade</strong>.
+                  Therefore, we do <strong>not offer refunds, returns, or exchanges</strong>{" "}
+                  once the order is placed.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">2. Quality Assurance</h3>
+                <p>
+                  Every product undergoes strict quality checks to ensure it is
+                  well-crafted and securely packaged before dispatch.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold">3. Damaged Items</h3>
+                <p>
+                  In case your product is damaged during transit, you must share
+                  an <strong>unboxing video within 24 hours of delivery</strong>.
+                  Our team will review the issue and provide a suitable
+                  resolution.
+                </p>
+              </div>
+
+            </div>
           </div>
 
+          {/* CONTACT */}
           <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              3. Delivery Time
+            <h2 className="text-xl font-semibold text-[#2B1B14] mb-2">
+              Contact Us
             </h2>
             <p>
-              Once shipped, orders are typically delivered within 5–7 business
-              days depending on your location.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              4. Shipping Locations
-            </h2>
-            <p>
-              We currently ship across India. For special delivery requests,
-              please contact us directly.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              5. Order Tracking
-            </h2>
-            <p>
-              Once your order is shipped, tracking details will be shared via
-              WhatsApp or email.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              6. Delays
-            </h2>
-            <p>
-              While we strive for timely delivery, delays may occur due to
-              unforeseen circumstances such as weather, logistics issues, or
-              high demand periods.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              7. Contact Us
-            </h2>
-            <p>
-              For any shipping-related queries, contact us:
+              For any queries related to shipping or orders:
               <br />
-              <strong>Email:</strong> your@email.com
+              <strong>Email:</strong> bhairaveecreations@gmail.com 
               <br />
-              <strong>Phone:</strong> +91 XXXXX XXXXX
+              <strong>Phone:</strong> +91 7218311737
             </p>
           </div>
 
