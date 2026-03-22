@@ -71,10 +71,11 @@ export default function ShippingPolicyPage() {
 
               <div>
                 <h3 className="font-semibold">4. Shipping Charges</h3>
-                <p>
-                  We offer <strong>free shipping</strong> on all orders across
-                  India.
-                </p>
+<p>
+  Shipping charges are applicable and may vary depending on your delivery
+  location. The final shipping cost will be calculated and displayed at
+  checkout.
+</p>
               </div>
 
               <div>
