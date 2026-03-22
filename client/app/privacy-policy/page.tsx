@@ -31,9 +31,9 @@ export default function PrivacyPolicyPage() {
         <div className="space-y-6 text-gray-700 text-sm leading-relaxed">
 
           <p>
-            At <strong>Bhairavee Creattions</strong>, we respect your privacy and are committed
-            to protecting your personal information. This Privacy Policy explains how we collect,
-            use, and safeguard your data when you visit or make a purchase from our website.
+            At <strong>Bhairavee Creattions</strong>, we value your privacy and are
+            committed to protecting your personal information. This policy explains
+            how we collect, use, and safeguard your data.
           </p>
 
           <div>
@@ -41,8 +41,8 @@ export default function PrivacyPolicyPage() {
               1. Information We Collect
             </h2>
             <p>
-              We may collect personal information such as your name, phone number, email address,
-              shipping address, and payment details when you place an order or contact us.
+              We may collect details such as your name, phone number, email
+              address, and shipping address when you place an order or contact us.
             </p>
           </div>
 
@@ -51,8 +51,9 @@ export default function PrivacyPolicyPage() {
               2. How We Use Your Information
             </h2>
             <p>
-              Your information is used to process orders, deliver products, communicate updates,
-              and improve our services. We do not sell or rent your personal data to third parties.
+              Your information is used to process orders, prepare customised
+              products, arrange shipping, and communicate order updates. We do not
+              sell or rent your personal data.
             </p>
           </div>
 
@@ -61,18 +62,18 @@ export default function PrivacyPolicyPage() {
               3. Payment Security
             </h2>
             <p>
-              All payments are processed securely through trusted payment gateways such as Razorpay.
+              Payments are processed securely through trusted payment gateways.
               We do not store your card or payment details on our servers.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              4. Cookies & Tracking
+              4. Cookies
             </h2>
             <p>
-              We may use cookies to enhance your browsing experience and analyze website traffic.
-              You can disable cookies in your browser settings if preferred.
+              We may use cookies to improve your browsing experience and analyze
+              website usage. You can manage cookie settings in your browser.
             </p>
           </div>
 
@@ -81,8 +82,8 @@ export default function PrivacyPolicyPage() {
               5. Data Protection
             </h2>
             <p>
-              We implement appropriate security measures to protect your personal information
-              from unauthorized access, misuse, or disclosure.
+              We take reasonable measures to protect your information from
+              unauthorized access, misuse, or disclosure.
             </p>
           </div>
 
@@ -91,8 +92,9 @@ export default function PrivacyPolicyPage() {
               6. Third-Party Services
             </h2>
             <p>
-              We may use third-party tools (such as Razorpay, analytics services) that may collect
-              limited data as per their own privacy policies.
+              We may use third-party services such as payment gateways and delivery
+              partners to complete your order. These services handle data as per
+              their own privacy policies.
             </p>
           </div>
 
@@ -101,8 +103,8 @@ export default function PrivacyPolicyPage() {
               7. Your Rights
             </h2>
             <p>
-              You have the right to access, update, or delete your personal information. You can
-              contact us for any such requests.
+              You may contact us to update or request deletion of your personal
+              information, subject to order and legal requirements.
             </p>
           </div>
 
@@ -111,7 +113,7 @@ export default function PrivacyPolicyPage() {
               8. Contact Us
             </h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact us at:
+              For any questions:
               <br />
               <strong>Email:</strong> your@email.com
               <br />
