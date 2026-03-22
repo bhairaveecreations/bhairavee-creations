@@ -33,7 +33,7 @@ export default function TermsPage() {
           <p>
             Welcome to <strong>Bhairavee Creattions</strong>. By accessing or using our
             website, you agree to comply with and be bound by the following Terms
-            and Conditions. Please read them carefully before using our services.
+            and Conditions.
           </p>
 
           <div>
@@ -41,9 +41,8 @@ export default function TermsPage() {
               1. Use of Website
             </h2>
             <p>
-              You agree to use this website only for lawful purposes. You must not
-              misuse this website or engage in any activity that may harm the
-              platform or other users.
+              You agree to use this website only for lawful purposes and not
+              engage in any activity that may harm the platform or its users.
             </p>
           </div>
 
@@ -52,9 +51,9 @@ export default function TermsPage() {
               2. Product Information
             </h2>
             <p>
-              We strive to display accurate product details, images, and pricing.
-              However, slight variations may occur as our products are handmade.
-              We reserve the right to modify or discontinue products at any time.
+              All products are handcrafted and made to order. Slight variations
+              in design, color, or finish may occur and are part of the uniqueness
+              of handmade items.
             </p>
           </div>
 
@@ -63,61 +62,90 @@ export default function TermsPage() {
               3. Pricing & Payments
             </h2>
             <p>
-              All prices are listed in INR (₹) and are subject to change without
-              notice. Payments are processed securely via trusted gateways such as
-              Razorpay.
+              All prices are listed in INR (₹). Shipping charges are applicable
+              and vary depending on the delivery location. Payments are processed
+              securely via trusted payment gateways.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              4. Order Acceptance
+              4. Order Processing & Delivery
             </h2>
             <p>
-              We reserve the right to accept or reject any order at our discretion.
-              In case of cancellation, a full refund will be processed if payment
-              has already been made.
+              Each product is custom-made and requires approximately 20 days for
+              preparation. Once shipped, delivery typically takes 5–7 working
+              days across India.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              5. Intellectual Property
+              5. Orders & Cancellation
+            </h2>
+            <p>
+              Orders once placed cannot be cancelled or modified, as production
+              begins shortly after confirmation.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
+              6. Refunds & Returns
+            </h2>
+            <p>
+              All products are customised and handmade. Therefore, we do not offer
+              refunds, returns, or exchanges once the order is placed.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
+              7. Damaged Items
+            </h2>
+            <p>
+              In case of damage during transit, customers must provide an
+              unboxing video within 24 hours of delivery. The issue will be
+              reviewed and resolved accordingly.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
+              8. Intellectual Property
             </h2>
             <p>
               All content on this website, including images, designs, and text,
-              belongs to Bhairavee Creattions and must not be copied or used
-              without permission.
+              belongs to Bhairavee Creattions and must not be used without permission.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              6. Limitation of Liability
+              9. Limitation of Liability
             </h2>
             <p>
               We are not liable for any indirect or incidental damages arising
-              from the use of our website or products.
+              from the use of our products or website.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              7. Changes to Terms
+              10. Changes to Terms
             </h2>
             <p>
               We may update these Terms & Conditions at any time without prior
-              notice. Continued use of the website means you accept the updated
-              terms.
+              notice.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              8. Contact Information
+              11. Contact Information
             </h2>
             <p>
-              For any queries regarding these terms, contact us:
+              For any queries:
               <br />
               <strong>Email:</strong> your@email.com
               <br />
