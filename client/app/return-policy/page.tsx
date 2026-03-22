@@ -24,26 +24,27 @@ export default function ReturnPolicyPage() {
           Refund & Return Policy
         </h1>
 
-        <p className="text-gray-600 mb-6 text-sm">
+        <p className="text-gray-600 mb-8 text-sm">
           Last updated: {new Date().toLocaleDateString()}
         </p>
 
-        <div className="space-y-6 text-gray-700 text-sm leading-relaxed">
+        <div className="space-y-8 text-gray-700 text-sm leading-relaxed">
 
           <p>
             At <strong>Bhairavee Creattions</strong>, all our products are
-            handcrafted with care and made to order. Due to the nature of our
-            products, we maintain a strict no return and no refund policy.
+            handcrafted and made to order with utmost care and precision.
+            Due to the customised nature of our creations, we follow a strict
+            no return and no refund policy.
           </p>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              1. No Returns
+              1. No Returns / No Exchanges
             </h2>
             <p>
-              We do not accept returns once the product has been delivered.
-              Each item is uniquely handmade, and slight variations are part
-              of its natural charm.
+              We do not accept returns or exchanges once the order has been
+              placed and delivered. Each piece is uniquely handmade, and
+              slight variations are natural and add to its charm.
             </p>
           </div>
 
@@ -52,29 +53,32 @@ export default function ReturnPolicyPage() {
               2. No Refunds
             </h2>
             <p>
-              All sales are final. We do not offer refunds after the order is
-              placed and processed.
+              All orders are final. We do not offer refunds once the order
+              is confirmed, as every product is specially crafted based on
+              customer requirements.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              3. Damaged or Incorrect Product
+              3. Damaged Items (If Applicable)
             </h2>
             <p>
-              In case you receive a damaged or incorrect product, please contact
-              us within 24 hours of delivery with proper unboxing video proof.
-              After verification, we may offer a replacement at our discretion.
+              In the rare case of damage during transit, customers must share
+              a <strong>clear unboxing video within 24 hours of delivery</strong>.
+              Our team will review the issue and provide a suitable resolution
+              after verification.
             </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-lg text-[#2B1B14] mb-2">
-              4. Order Cancellation
+              4. Important Note
             </h2>
             <p>
-              Orders can only be cancelled within 12 hours of placing the order.
-              Once production has started, cancellations will not be accepted.
+              Since all products are handcrafted, minor variations in design,
+              color, or finish are not considered defects but a part of the
+              uniqueness of handmade art.
             </p>
           </div>
 
@@ -83,11 +87,11 @@ export default function ReturnPolicyPage() {
               5. Contact Us
             </h2>
             <p>
-              For any concerns, please contact us:
+              For any concerns or queries, feel free to reach out:
               <br />
-              <strong>Email:</strong> your@email.com
+<strong>Email:</strong> bhairaveecreations@gmail.com 
               <br />
-              <strong>Phone:</strong> +91 XXXXX XXXXX
+              <strong>Phone:</strong> +91 7218311737
             </p>
           </div>
 
