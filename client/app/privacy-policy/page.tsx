@@ -115,9 +115,9 @@ export default function PrivacyPolicyPage() {
             <p>
               For any questions:
               <br />
-              <strong>Email:</strong> your@email.com
+              <strong>Email:</strong> bhairaveecreations@gmail.com 
               <br />
-              <strong>Phone:</strong> +91 XXXXX XXXXX
+              <strong>Phone:</strong> +91 7218311737
             </p>
           </div>
 
