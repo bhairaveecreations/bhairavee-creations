@@ -114,24 +114,33 @@ export default function AdminProductsPage() {
                 </td>
 
                 {/* Actions */}
-                <td className="p-4 flex gap-3">
+               <td className="p-4">
+  <div className="flex gap-2">
 
-                  <Link
-                    href={`/admin/products/edit/${product._id}`}
-                    className="px-3 py-1 text-sm rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
-                  >
-                    Edit
-                  </Link>
+    <Link
+      href={`/admin/products/edit/${product._id}`}
+      className="px-4 py-1.5 text-sm font-medium rounded-full 
+      bg-gradient-to-r from-[#E6F0FF] to-[#F0F6FF] 
+      text-blue-700 border border-blue-100
+      shadow-sm hover:shadow-md hover:scale-[1.03] 
+      transition-all duration-200"
+    >
+      ✏️ Edit
+    </Link>
 
-                  <button
-                    onClick={() => deleteProduct(product._id)}
-                    className="px-3 py-1 text-sm rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition"
-                  >
-                    Delete
-                  </button>
+    <button
+      onClick={() => deleteProduct(product._id)}
+      className="px-4 py-1.5 text-sm font-medium rounded-full 
+      bg-gradient-to-r from-[#FFECEC] to-[#FFF5F5] 
+      text-red-600 border border-red-100
+      shadow-sm hover:shadow-md hover:scale-[1.03] 
+      transition-all duration-200"
+    >
+      🗑 Delete
+    </button>
 
-                </td>
-
+  </div>
+</td>
               </tr>
 
             ))}
