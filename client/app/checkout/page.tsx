@@ -77,11 +77,9 @@ export default function CheckoutPage() {
     setForm({ ...form, pincode: value });
 
     if (value.length === 6) {
-      if(value.startsWith("000")){
-        setDeliveryFee(0);
-      }
+
       if (value.startsWith("411") || value.startsWith("412")) {
-        setDeliveryFee(80);
+        setDeliveryFee(0);
       } else {
         setDeliveryFee(150);
       }
