@@ -44,23 +44,24 @@ export default function ContactPage() {
 
           <p>
             <strong>Phone:</strong>{" "}
-            <a href="tel:+91XXXXXXXXXX" className="hover:underline">
-              +91 XXXXX XXXXX
+            <a href="tel:+917218311737" className="hover:underline">
+              +91 7218311737
             </a>
           </p>
 
           <p>
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:your@email.com"
+              href="mailto: bhairaveecreations@gmail.com "
               className="hover:underline"
             >
-              your@email.com
+               bhairaveecreations@gmail.com 
             </a>
           </p>
 
           <p>
-            <strong>Address:</strong> Your City, India
+            <strong>Address:</strong>  Laxminarayan Apartment, Lane no 10, Right Bhusari colony, Next to Shardas beauty Parlour, Kothrud depot,Pune 411038
+Maharshtra
           </p>
 
         </div>
