@@ -88,7 +88,7 @@ export default function Hero() {
 <div className="fixed bottom-6 right-6 z-50">
 
   <Link
-    href="https://wa.me/919876543210?text=Hi%20I%20want%20to%20place%20a%20bulk%20order"
+    href="https://wa.me/917218311737?text=Hi%20I%20want%20to%20place%20a%20bulk%20order"
     target="_blank"
     className="flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-full shadow-2xl transition duration-300 group"
   >
