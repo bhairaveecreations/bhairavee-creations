@@ -203,10 +203,67 @@ exports.updateOrderStatus = async (req, res) => {
         order.userId.email,
         "Order Status Updated",
         `
-        <h2>Status Updated</h2>
-        <p>Hello ${order.userId.name}</p>
-        <p><b>Order:</b> ${order._id}</p>
-        <p><b>Status:</b> ${status}</p>
+         <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color:#F9F7F4; padding:30px;">
+
+    <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#2B1B14,#4a2c20); padding:20px; text-align:center;">
+        <h1 style="color:#D4AF37; margin:0; font-size:24px;">
+          Bhairavee Creattions
+        </h1>
+        <p style="color:#eee; margin:5px 0 0; font-size:14px;">
+          Handcrafted with Love & Devotion
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:30px; text-align:center;">
+
+        <h2 style="color:#2B1B14; margin-bottom:10px;">
+          📦 Order Status Updated
+        </h2>
+
+        <p style="color:#555; font-size:15px;">
+          Hello <b>${order.userId.name}</b>,
+        </p>
+
+        <p style="color:#555; font-size:15px; line-height:1.6;">
+          Your order status has been updated. Here are the latest details:
+        </p>
+
+        <!-- Order Details -->
+        <div style="margin:25px 0; padding:20px; background:#F9F7F4; border-radius:10px; text-align:left;">
+          
+          <p style="margin:8px 0; font-size:14px; color:#777;">
+            <b>Order ID:</b> ${order._id}
+          </p>
+
+          <p style="margin:8px 0; font-size:14px; color:#777;">
+            <b>Status:</b> 
+            <span style="color:#2B1B14; font-weight:600;">
+              ${status}
+            </span>
+          </p>
+
+        </div>
+
+        <p style="font-size:14px; color:#666;">
+          We’ll keep you updated as your order progresses ✨
+        </p>
+
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#2B1B14; padding:15px; text-align:center;">
+        <p style="color:#ccc; font-size:12px; margin:0;">
+          © ${new Date().getFullYear()} Bhairavee Creattions
+        </p>
+      </div>
+
+    </div>
+
+  </div>
         `
       );
     } catch (e) {
@@ -240,10 +297,65 @@ exports.requestRemainingPayment = async (req, res) => {
       order.userId.email,
       "Remaining Payment Required",
       `
-      <h2>Your Order Is Ready</h2>
-      <p>Hello ${order.userId.name}</p>
-      <p><b>Remaining:</b> ₹${order.remainingAmount}</p>
-      <a href="${order.remainingPaymentLink}">Pay Now</a>
+       <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color:#F9F7F4; padding:30px;">
+
+    <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#2B1B14,#4a2c20); padding:20px; text-align:center;">
+        <h1 style="color:#D4AF37; margin:0; font-size:24px;">
+          Bhairavee Creattions
+        </h1>
+        <p style="color:#eee; margin:5px 0 0; font-size:14px;">
+          Handcrafted with Love & Devotion
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:30px; text-align:center;">
+
+        <h2 style="color:#2B1B14; margin-bottom:10px;">
+          ✨ Your Order Is Ready
+        </h2>
+
+        <p style="color:#555; font-size:15px;">
+          Hello <b>${order.userId.name}</b>,
+        </p>
+
+        <p style="color:#555; font-size:15px; line-height:1.6;">
+          Your handcrafted product is now ready ✨<br/>
+          Please complete the remaining payment to proceed with delivery.
+        </p>
+
+        <!-- Amount Box -->
+        <div style="margin:25px 0; padding:20px; background:#F9F7F4; border-radius:10px;">
+          <p style="margin:0; color:#777; font-size:14px;">Remaining Amount</p>
+          <h2 style="margin:5px 0; color:#2B1B14;">₹${order.remainingAmount}</h2>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="${order.remainingPaymentLink}" 
+           style="display:inline-block; margin-top:10px; background:#D4AF37; color:#000; text-decoration:none; padding:14px 28px; border-radius:8px; font-weight:600; font-size:15px;">
+          Pay Now →
+        </a>
+
+        <p style="margin-top:20px; font-size:13px; color:#888;">
+          Secure payment powered by Razorpay
+        </p>
+
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#2B1B14; padding:15px; text-align:center;">
+        <p style="color:#ccc; font-size:12px; margin:0;">
+          © ${new Date().getFullYear()} Bhairavee Creattions
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
       `
     );
 
