@@ -24,3 +24,22 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+/* ===== Premium Scrollbar ===== */
+/* ===== FORCE CUSTOM SCROLLBAR ===== */
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #F9F7F4;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D4AF37, #b8962e);
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e6c65c, #c9a93a);
+}
