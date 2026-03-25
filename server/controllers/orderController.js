@@ -79,6 +79,8 @@ exports.createOrder = async (req, res) => {
     <p style="margin: 8px 0;">👤 <b>Customer:</b> ${user.name}</p>
     <p style="margin: 8px 0;">📧 <b>Email:</b> ${user.email}</p>
     <p style="margin: 8px 0;">🆔 <b>Order ID:</b> ${order._id}</p>
+    <p style="margin: 8px 0;">🆔 <b>Contact:</b> ${order.shippingAddress.phone}</p>
+
     
     <hr style="border: none; border-top: 1px solid rgba(212,175,55,0.2); margin: 15px 0;" />
     
