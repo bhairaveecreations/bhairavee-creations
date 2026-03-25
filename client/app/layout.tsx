@@ -28,19 +28,19 @@ export const metadata: Metadata = {
   authors: [{ name: "Bhairavee Creattions" }],
   creator: "Bhairavee Creattions",
 
-  metadataBase: new URL("https://yourdomain.com"),
+  metadataBase: new URL("https://www.bhairaveecreattions.in/"),
 
   openGraph: {
     title: "Bhairavee Creattions | Resin Art & Spiritual Decor",
     description:
       "Discover handcrafted resin decor and custom spiritual creations. Elegant handmade designs crafted with precision and love.",
-    url: "https://yourdomain.com",
+    url: "https://www.bhairaveecreattions.in/",
     siteName: "Bhairavee Creattions",
     locale: "en_IN",
     type: "website",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
       },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "Bhairavee Creattions",
     description:
       "Handcrafted resin art & custom spiritual decor.",
-    images: ["/og-image.jpg"],
+    images: ["/logo.png"],
   },
 
   robots: {
