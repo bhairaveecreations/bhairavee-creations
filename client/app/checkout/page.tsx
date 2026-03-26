@@ -79,7 +79,7 @@ export default function CheckoutPage() {
     if (value.length === 6) {
 
       if (value.startsWith("411") || value.startsWith("412")) {
-        setDeliveryFee(0);
+        setDeliveryFee(80);
       } else {
         setDeliveryFee(150);
       }
