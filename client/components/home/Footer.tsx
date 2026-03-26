@@ -91,6 +91,11 @@ export default function Footer() {
                   Contact Us
                 </Link>
               </li>
+                 <li>
+                <Link href="/about" className="hover:text-white transition">
+                  About Us
+                </Link>
+              </li>
 
             </ul>
           </div>
