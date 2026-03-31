@@ -136,9 +136,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-600 pt-6 text-center text-gray-400 text-sm">
+        <div className="border-t border-gray-600 pt-2 py-15 px-20 flex justify-between">
+            <div className=" text-gray-400 text-sm">
           © {new Date().getFullYear()} Bhairavee Creattions. All rights reserved.
         </div>
+         <div className=" text-gray-400 text-sm">
+          Crafted By <Link href="https://dexosis.vercel.app/" target="_blank" className="hover:text-white transition">
+            Dexosis
+          </Link>
+        </div>
+
+        </div>
+      
+
 
       </div>
     </footer>

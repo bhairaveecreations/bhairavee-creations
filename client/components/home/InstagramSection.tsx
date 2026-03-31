@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
+import { FaAmazon, FaInstagram } from "react-icons/fa";
 
 export default function InstagramSection() {
 
@@ -56,8 +57,7 @@ export default function InstagramSection() {
 
             <div className="text-white text-center flex flex-col items-center gap-3">
 
-              <Instagram size={34} />
-
+              <FaInstagram size={24} />
               <p className="text-sm font-medium tracking-wide">
                 View on Instagram
               </p>
@@ -71,21 +71,27 @@ export default function InstagramSection() {
 
         {/* Follow Button */}
 
-        <div className="text-center mt-12">
+<div className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-12 px-4">
 
-          <Link
-            href="https://www.instagram.com/bhairaveecreattions/"
-            target="_blank"
-            className="inline-flex items-center gap-2 border border-[#2B1B14] px-7 py-3 rounded-full hover:bg-[#2B1B14] hover:text-white transition"
-          >
+  <Link
+    href="https://www.instagram.com/bhairaveecreattions/"
+    target="_blank"
+    className="w-full sm:w-auto inline-flex justify-center items-center gap-2 border border-[#2B1B14] px-5 py-3 rounded-full text-sm md:text-base hover:bg-[#2B1B14] hover:text-white transition"
+  >
+    <Instagram size={18} />
+    Follow @bhairaveecreattions
+  </Link>
 
-            <Instagram size={18} />
+  <Link
+    href="https://www.amazon.in/l/27943762031?me=A383GKJQSMEM1Z&tag=ShopReferral_1a5162dc-bdbb-4647-b9b9-498020c4e053&ref=sf_seller_app_share_new_ls_srb"
+    target="_blank"
+    className="w-full sm:w-auto inline-flex justify-center items-center gap-2 border border-[#2B1B14] px-5 py-3 rounded-full text-sm md:text-base hover:bg-[#2B1B14] hover:text-white transition"
+  >
+    <FaAmazon size={18} />
+    Visit On Amazon
+  </Link>
 
-            Follow @bhairaveecreattions
-
-          </Link>
-
-        </div>
+</div>
 
       </div>
 
